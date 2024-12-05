@@ -1,0 +1,16 @@
+###
+GET http://localhost:8080/
+
+###
+GET http://localhost:8080/api/rockets
+host: localhost:8080
+
+###
+GET http://localhost:8080/api/rocket?id=5e9d0d96eda699382d09d1ee
+host: localhost:8080
+
+###
+GET http://localhost:8080/api/latest-launch
+host: localhost:8080
+
+
