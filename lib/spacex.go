@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/rs/zerolog/log"
 )
 
 // SpaceXClient handles API calls to SpaceX
@@ -50,9 +52,51 @@ func NewSpaceXClient() *SpaceXClient {
 	}
 }
 
+// Add logging to API calls
+func (c *SpaceXClient) makeRequest(method, url string) (*http.Response, error) {
+	start := time.Now()
+
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.httpClient.Do(req)
+	duration := time.Since(start)
+
+	if err != nil {
+		log.Error().
+			Str("method", method).
+			Str("host", req.URL.Host).
+			Dur("latency", duration).
+			Err(err).
+			Msg("API request failed")
+		return nil, err
+	}
+
+	// Log X-prefixed headers
+	for header, values := range resp.Header {
+		if len(header) > 0 && (header[0] == 'X' || header[0] == 'x') {
+			log.Info().
+				Str("header", header).
+				Strs("values", values).
+				Msg("X-Header found")
+		}
+	}
+
+	log.Info().
+		Str("method", method).
+		Str("host", req.URL.Host).
+		Int("status", resp.StatusCode).
+		Dur("latency", duration).
+		Msg("API request completed")
+
+	return resp, nil
+}
+
 // GetAllRockets fetches all rocket summaries
 func (c *SpaceXClient) GetAllRockets() ([]RocketSummary, error) {
-	resp, err := c.httpClient.Get(fmt.Sprintf("%s/rockets", c.baseURL))
+	resp, err := c.makeRequest("GET", fmt.Sprintf("%s/rockets", c.baseURL))
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +120,7 @@ func (c *SpaceXClient) GetAllRockets() ([]RocketSummary, error) {
 
 // GetLatestLaunch fetches details of the latest SpaceX launch
 func (c *SpaceXClient) GetLatestLaunch() (*Launch, error) {
-	resp, err := c.httpClient.Get(fmt.Sprintf("%s/launches/latest", c.baseURL))
+	resp, err := c.makeRequest("GET", fmt.Sprintf("%s/launches/latest", c.baseURL))
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +135,7 @@ func (c *SpaceXClient) GetLatestLaunch() (*Launch, error) {
 
 // GetRocket fetches details of a specific rocket by its ID
 func (c *SpaceXClient) GetRocket(rocketID string) (*Rocket, error) {
-	resp, err := c.httpClient.Get(fmt.Sprintf("%s/rockets/%s", c.baseURL, rocketID))
+	resp, err := c.makeRequest("GET", fmt.Sprintf("%s/rockets/%s", c.baseURL, rocketID))
 	if err != nil {
 		return nil, err
 	}

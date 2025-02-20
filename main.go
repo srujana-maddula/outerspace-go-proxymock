@@ -4,9 +4,13 @@ import (
 	"log"
 	"net/http"
 	"outerspace-go/lib"
+	"outerspace-go/lib/logger"
 )
 
 func main() {
+	// Initialize logger
+	logger.Init()
+
 	spaceClient := lib.NewSpaceXClient()
 	numbersClient := lib.NewNumbersClient()
 

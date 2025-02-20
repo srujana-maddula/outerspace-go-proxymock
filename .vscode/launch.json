@@ -10,6 +10,17 @@
       "request": "launch",
       "mode": "debug",
       "program": "main.go"
+    },
+    {
+      "name": "Launch go package with proxymock",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "main.go",
+      "env": {
+        "http_proxy": "http://localhost:4140",
+        "https_proxy": "http://localhost:4140",
+      }
     }
   ]
 }

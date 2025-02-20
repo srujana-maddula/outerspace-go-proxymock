@@ -3,10 +3,31 @@ package lib
 import (
 	"encoding/json"
 	"net/http"
+	"time"
+
+	"github.com/rs/zerolog/log"
 )
 
-func HandleLatestLaunch(client *SpaceXClient) http.HandlerFunc {
+// LoggingMiddleware wraps an http.HandlerFunc and logs request details
+func LoggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+
+		// Call the next handler
+		next(w, r)
+
+		// Log the request details after it's completed
+		log.Info().
+			Str("method", r.Method).
+			Str("path", r.URL.Path).
+			Str("query", r.URL.RawQuery).
+			Dur("latency", time.Since(start)).
+			Msg("Inbound")
+	}
+}
+
+func HandleLatestLaunch(client *SpaceXClient) http.HandlerFunc {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		launch, err := client.GetLatestLaunch()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -15,11 +36,11 @@ func HandleLatestLaunch(client *SpaceXClient) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(launch)
-	}
+	})
 }
 
 func HandleRocket(client *SpaceXClient) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		rocketID := r.URL.Query().Get("id")
 		if rocketID == "" {
 			http.Error(w, "rocket ID is required", http.StatusBadRequest)
@@ -34,11 +55,11 @@ func HandleRocket(client *SpaceXClient) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(rocket)
-	}
+	})
 }
 
 func HandleListRockets(client *SpaceXClient) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		rockets, err := client.GetAllRockets()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -47,11 +68,11 @@ func HandleListRockets(client *SpaceXClient) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(rockets)
-	}
+	})
 }
 
 func HandleNumbers(client *NumbersClient) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		mathFact, err := client.GetMathFact()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -60,11 +81,11 @@ func HandleNumbers(client *NumbersClient) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(mathFact)
-	}
+	})
 }
 
 func HandleRoot() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		endpoints := map[string]string{
 			"/":                  "Shows this list of available endpoints",
 			"/api/latest-launch": "Get the latest SpaceX launch",
@@ -75,5 +96,5 @@ func HandleRoot() http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(endpoints)
-	}
+	})
 }
