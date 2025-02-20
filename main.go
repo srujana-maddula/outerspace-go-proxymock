@@ -7,13 +7,15 @@ import (
 )
 
 func main() {
-	client := lib.NewSpaceXClient()
+	spaceClient := lib.NewSpaceXClient()
+	numbersClient := lib.NewNumbersClient()
 
 	// Define routes
 	http.HandleFunc("/", lib.HandleRoot())
-	http.HandleFunc("/api/latest-launch", lib.HandleLatestLaunch(client))
-	http.HandleFunc("/api/rocket", lib.HandleRocket(client))
-	http.HandleFunc("/api/rockets", lib.HandleListRockets(client))
+	http.HandleFunc("/api/latest-launch", lib.HandleLatestLaunch(spaceClient))
+	http.HandleFunc("/api/rocket", lib.HandleRocket(spaceClient))
+	http.HandleFunc("/api/rockets", lib.HandleListRockets(spaceClient))
+	http.HandleFunc("/api/numbers", lib.HandleNumbers(numbersClient))
 
 	// Start server
 	log.Printf("Starting server on :8080")

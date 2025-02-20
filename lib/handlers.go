@@ -50,6 +50,19 @@ func HandleListRockets(client *SpaceXClient) http.HandlerFunc {
 	}
 }
 
+func HandleNumbers(client *NumbersClient) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		mathFact, err := client.GetMathFact()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(mathFact)
+	}
+}
+
 func HandleRoot() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		endpoints := map[string]string{
@@ -57,6 +70,7 @@ func HandleRoot() http.HandlerFunc {
 			"/api/latest-launch": "Get the latest SpaceX launch",
 			"/api/rocket":        "Get a specific rocket by ID (use ?id=[rocket_id])",
 			"/api/rockets":       "Get a list of all SpaceX rockets",
+			"/api/numbers":       "Get a random math fact",
 		}
 
 		w.Header().Set("Content-Type", "application/json")
