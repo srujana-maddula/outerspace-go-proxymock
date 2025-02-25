@@ -30,7 +30,7 @@ jobs:
     - name: Set PATH
       run: |
         mkdir ~/.speedscale
-        echo "export PATH=\$PATH:~/.speedscale" >> $PATH
+        echo "export PATH=\$PATH:~/.speedscale" >> $GITHUB_ENV
       shell: bash
 
     - name: Debug Environment
