@@ -49,6 +49,7 @@ jobs:
         go mod download
         export http_proxy=http://localhost:4140
         export https_proxy=http://localhost:4140
+        export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
 
     - name: Set up QEMU
