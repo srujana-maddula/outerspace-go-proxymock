@@ -41,8 +41,8 @@ jobs:
         echo "Using snapshot: $SNAPSHOT_ID"
         ~/.speedscale/proxymock run --snapshot-id $SNAPSHOT_ID & > proxymock.log
         go mod download
-        export http_proxy=http://localhost:4140
-        export https_proxy=http://localhost:4140
+        export http_proxy=socks5h://localhost:4140
+        export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
         cat proxymock.log
