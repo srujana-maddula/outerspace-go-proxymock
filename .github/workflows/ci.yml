@@ -45,7 +45,10 @@ jobs:
       shell: bash
     
     - name: Run tests
-      run: go test -v ./...
+      run: |
+        export http_proxy=http://localhost:4140
+        export https_proxy=http://localhost:4140
+        go test -v ./...
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
