@@ -39,12 +39,13 @@ jobs:
         echo "Snapshot filename: ${FILENAME}"
         SNAPSHOT_ID=$(basename "$FILENAME" .json)
         echo "Using snapshot: $SNAPSHOT_ID"
-        ~/.speedscale/proxymock run --snapshot-id $SNAPSHOT_ID &
+        ~/.speedscale/proxymock run --snapshot-id $SNAPSHOT_ID & > proxymock.log
         go mod download
         export http_proxy=http://localhost:4140
         export https_proxy=http://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
+        cat proxymock.log
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
