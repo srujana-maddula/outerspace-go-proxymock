@@ -28,8 +28,8 @@ jobs:
         go-version: '1.23'
     
     - name: Set PATH
-      run: echo "export PATH=\$PATH:~/.speedscale" >> $GITHUB_ENV
-      
+      run: echo "export PATH=\$PATH:~/.speedscale" >> $PATH
+
     - name: Debug Environment
       run: |
         echo "PATH: $PATH"
