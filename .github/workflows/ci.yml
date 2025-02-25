@@ -27,14 +27,21 @@ jobs:
       with:
         go-version: '1.23'
     
+    - name: Install proxymock
+      run: sh -c "$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
+    
+    - name: Initialize proxymock
+      run: ~/.speedscale/proxymock init --api-key ${{ secrets.PROXYMOCK_API_KEY }}
+
+    - name: Import snapshot
+      run: |
+        SNAPSHOT_ID=$(~/.speedscale/proxymock import --file .speedscale/snapshot/5e5ad11f-bda5-40b7-b5df-21e6f8effb87.json | awk 'NF{last=$NF} END{print last}')
+        echo 'Using snapshot: $SNAPSHOT_ID'
+    
     - name: Run proxymock
       run: |
-        sh -c "$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
-        ~/.speedscale/proxymock init --api-key ${{ secrets.PROXYMOCK_API_KEY }}
-        SNAPSHOT_ID=$(~/.speedscale/proxymock import --file .speedscale/snapshot/5e5ad11f-bda5-40b7-b5df-21e6f8effb87.json | awk 'NF{last=$NF} END{print last}')
         ~/.speedscale/proxymock run --snapshot-id $SNAPSHOT_ID &
         sleep 5
-      shell: bash
 
     - name: Run tests
       run: go test -v ./...
