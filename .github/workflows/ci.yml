@@ -28,7 +28,10 @@ jobs:
         go-version: '1.23'
     
     - name: Set PATH
-      run: echo "export PATH=\$PATH:~/.speedscale" >> $PATH
+      run: |
+        mkdir ~/.speedscale
+        echo "export PATH=\$PATH:~/.speedscale" >> $PATH
+      shell: bash
 
     - name: Debug Environment
       run: |
@@ -39,11 +42,11 @@ jobs:
     - name: Run proxymock
       run: |
         sh -c "$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
-
         proxymock init --api-key ${{ secrets.PROXYMOCK_API_KEY }}
         SNAPSHOT_ID=$(proxymock import --file .speedscale/snapshot/5e5ad11f-bda5-40b7-b5df-21e6f8effb87.json | awk 'NF{last=$NF} END{print last}')
         proxymock run --snapshot-id $SNAPSHOT_ID &
         sleep 5
+      shell: bash
 
     - name: Run tests
       run: go test -v ./...
