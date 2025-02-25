@@ -1,0 +1,115 @@
+{
+  "msgType": "rrpair",
+  "resource": "responder",
+  "ts": "2025-02-25T15:32:58.819921Z",
+  "l7protocol": "http",
+  "duration": 157,
+  "tags": {
+    "match": "PASSTHROUGH",
+    "msgNum": "2",
+    "proxyLocation": "out",
+    "proxyVersion": "v2.3.256",
+    "refUuid": "undefined",
+    "sequence": "2",
+    "source": "responder"
+  },
+  "uuid": "VpeRymxNRmKzYbP05mp/RQ==",
+  "direction": "OUT",
+  "cluster": "undefined",
+  "namespace": "undefined",
+  "service": "undefined",
+  "network_address": "numbersapi.com:80",
+  "command": "GET",
+  "location": "/random/math",
+  "status": "200",
+  "http": {
+    "req": {
+      "url": "/random/math",
+      "uri": "/random/math?json",
+      "version": "1.1",
+      "method": "GET",
+      "host": "numbersapi.com",
+      "headers": {
+        "Accept-Encoding": [
+          "gzip"
+        ],
+        "Host": [
+          "numbersapi.com"
+        ],
+        "User-Agent": [
+          "Go-http-client/1.1"
+        ]
+      },
+      "queryParams": {
+        "json": [
+          ""
+        ]
+      }
+    },
+    "res": {
+      "contentType": "application/json; charset=utf-8",
+      "statusCode": 200,
+      "statusMessage": "200 OK",
+      "headers": {
+        "Access-Control-Allow-Origin": [
+          "*"
+        ],
+        "Cache-Control": [
+          "no-cache",
+          "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+        ],
+        "Connection": [
+          "keep-alive"
+        ],
+        "Content-Length": [
+          "163"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Date": [
+          "Tue, 25 Feb 2025 15:18:25 GMT"
+        ],
+        "Etag": [
+          "W/\"a3-AsZQP+6Y93qUNs5upN9eCy6TDTA\""
+        ],
+        "Expires": [
+          "0"
+        ],
+        "Last-Modified": [
+          "1740496705"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Server": [
+          "nginx/1.4.6 (Ubuntu)"
+        ],
+        "X-Numbers-Api-Number": [
+          "4445"
+        ],
+        "X-Numbers-Api-Type": [
+          "math"
+        ],
+        "X-Powered-By": [
+          "Express"
+        ]
+      },
+      "bodyBase64": "ewogInRleHQiOiAiNDQ0NSBpcyB0aGUgc21hbGxlc3QgbnVtYmVyIHRoYXQgY2FuIGJlIHdyaXR0ZW4gYXMgdGhlIHN1bSBvZiA0IGRpc3RpbmN0IHBvc2l0aXZlIGN1YmVzIGluIDQgd2F5cy4iLAogIm51bWJlciI6IDQ0NDUsCiAiZm91bmQiOiB0cnVlLAogInR5cGUiOiAibWF0aCIKfQ=="
+    }
+  },
+  "signature": {
+    "http:host": "bnVtYmVyc2FwaS5jb20=",
+    "http:method": "R0VU",
+    "http:queryparams": "anNvbj0=",
+    "http:url": "L3JhbmRvbS9tYXRo",
+    "instance": "MA=="
+  },
+  "netinfo": {
+    "upstream": {
+      "port": 80,
+      "hostname": "numbersapi.com"
+    }
+  },
+  "responderMatch": "PASSTHROUGH"
+}

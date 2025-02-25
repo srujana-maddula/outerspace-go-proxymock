@@ -1,4 +1,4 @@
-@host = localhost:8080
+@host = localhost:4143
 
 ### List available API calls
 GET http://{{host}}/
