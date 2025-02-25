@@ -46,6 +46,7 @@ jobs:
     
     - name: Run tests
       run: |
+        go mod download
         export http_proxy=http://localhost:4140
         export https_proxy=http://localhost:4140
         go test -v ./...
