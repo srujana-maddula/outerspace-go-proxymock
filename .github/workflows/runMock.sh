@@ -35,7 +35,7 @@ echo "Importing snapshot..."
 proxymock import --file .speedscale/raw.jsonl
 
 # Get the first snapshot file
-FILENAME=$(find ~/.speedscale/data/snapshots -type f -name "*.json" | head -n 1)
+FILENAME=$(find ~/.speedscale/data/snapshots -maxdepth 1 -type f -name "*.json" | head -n 1)
 if [[ -z "$FILENAME" ]]; then
   echo "Error: No snapshot file found!"
   exit 1
@@ -43,7 +43,7 @@ fi
 
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
-cat "~/.speedscale/data/snapshots/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
+cat "~/.speedscale/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
 
 # Start proxymock in the background
 nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
