@@ -45,7 +45,7 @@ SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Using snapshot: $SNAPSHOT_ID"
 
 # Display reactions.jsonl if it exists
-REACTIONS_FILE="$HOME/.speedscale/data/snapshots/reactions.jsonl"
+REACTIONS_FILE="$HOME/.speedscale/data/snapshots/$SNAPSHOT_ID/reactions.jsonl"
 if [[ -f "$REACTIONS_FILE" ]]; then
   echo "Contents of reactions.jsonl:"
   cat "$REACTIONS_FILE"
