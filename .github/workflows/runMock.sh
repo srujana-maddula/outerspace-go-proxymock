@@ -43,6 +43,7 @@ fi
 
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
+cat "~/.speedscale/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
 
 # Start proxymock in the background
 nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
