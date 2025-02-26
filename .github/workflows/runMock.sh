@@ -34,16 +34,10 @@ echo "Combined JSON files into .speedscale/raw.jsonl"
 echo "Importing snapshot..."
 proxymock import --file .speedscale/raw.jsonl
 
-# Find the imported snapshot file
-FILENAME=$(ls ~/.speedscale/data/snapshots/*.json)
-echo "Snapshot filename: ${FILENAME}"
-
-# Extract the snapshot ID
-SNAPSHOT_ID=$(basename "$FILENAME" .json)
-echo "Using snapshot: $SNAPSHOT_ID"
-
 # Run proxymock with the extracted snapshot ID
+FILENAME=$(ls ~/.speedscale/data/snapshots/*.json)
+SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
-proxymock run --snapshot-id "$SNAPSHOT_ID" --service http=18080 & > proxymock.log
+nohup ~/.speedscale/proxymock run --snapshot-id "$SNAPSHOT_ID" --service http=18080 > proxymock.log 2>&1 &
 
 echo "Proxymock started successfully."

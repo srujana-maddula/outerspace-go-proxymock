@@ -43,6 +43,9 @@ jobs:
         go test -v ./...
         cat proxymock.log
 
+    - name: Check log
+      run: echo proxymock.log
+      
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
