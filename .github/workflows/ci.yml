@@ -32,15 +32,18 @@ jobs:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: .github/workflows/runMock.sh
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: go mod download
 
-    - name: Run Integration Tests
+    - name: Run integration tests with proxymock
       run: |
         export http_proxy=socks5h://localhost:4140
         export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
+    
+    - name: Run integration tests without proxymock
+      run: go test -v ./...
       
     # - name: Set up QEMU
     #   uses: docker/setup-qemu-action@v3
