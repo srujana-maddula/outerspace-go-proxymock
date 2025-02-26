@@ -30,11 +30,11 @@ proxymock version || { echo "Proxymock installation failed"; exit 1; }
 find .speedscale -type f -name "*.json" -exec cat {} + | jq -c '.' > .speedscale/raw.jsonl
 echo "Combined JSON files into .speedscale/raw.jsonl"
 
-# Import and run proxymock
+# Import the snapshot
 echo "Importing snapshot..."
 proxymock import --file .speedscale/raw.jsonl
 
-# Get the first snapshot file
+# Locate the correct snapshot file
 FILENAME=$(find ~/.speedscale/data/snapshots -maxdepth 1 -type f -name "*.json" | head -n 1)
 if [[ -z "$FILENAME" ]]; then
   echo "Error: No snapshot file found!"
@@ -42,8 +42,16 @@ if [[ -z "$FILENAME" ]]; then
 fi
 
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
-echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
-cat "~/.speedscale/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
+echo "Using snapshot: $SNAPSHOT_ID"
+
+# Display reactions.jsonl if it exists
+REACTIONS_FILE="$HOME/.speedscale/data/snapshots/reactions.jsonl"
+if [[ -f "$REACTIONS_FILE" ]]; then
+  echo "Contents of reactions.jsonl:"
+  cat "$REACTIONS_FILE"
+else
+  echo "Warning: reactions.jsonl not found in snapshots directory."
+fi
 
 # Start proxymock in the background
 nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
