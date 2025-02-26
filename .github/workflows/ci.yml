@@ -27,20 +27,14 @@ jobs:
       with:
         go-version: '1.23'
     
-    - name: Install proxymock
-      run: |
-        sh -c "$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
-        ~/.speedscale/proxymock init --api-key ${{ secrets.PROXYMOCK_API_KEY }}
+    - name: Run Proxymock
+      run: .github/workflows/runMock.sh
 
-    - name: Import and run proxymock
+    - name: Install Dependencies
+      run: go mod download
+
+    - name: Run Integration Tests
       run: |
-        ~/.speedscale/proxymock import --file .speedscale/snapshot/raw.jsonl
-        FILENAME=$(ls ~/.speedscale/data/snapshots/*.json)
-        echo "Snapshot filename: ${FILENAME}"
-        SNAPSHOT_ID=$(basename "$FILENAME" .json)
-        echo "Using snapshot: $SNAPSHOT_ID"
-        ~/.speedscale/proxymock run --snapshot-id $SNAPSHOT_ID & > proxymock.log
-        go mod download
         export http_proxy=socks5h://localhost:4140
         export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
