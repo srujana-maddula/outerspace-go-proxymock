@@ -37,6 +37,8 @@ jobs:
 
     - name: Run Integration Tests
       run: |
+        cat proxymock.log
+        ps -ef
         export http_proxy=socks5h://localhost:4140
         export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
