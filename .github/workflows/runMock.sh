@@ -46,15 +46,6 @@ fi
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Using snapshot: $SNAPSHOT_ID"
 
-# Display reaction.jsonl if it exists
-REACTIONS_FILE="$HOME/.speedscale/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
-if [[ -f "$REACTIONS_FILE" ]]; then
-  echo "Contents of reaction.jsonl:"
-  cat "$REACTIONS_FILE"
-else
-  echo "Warning: reaction.jsonl not found in snapshots directory."
-fi
-
 # Start proxymock in the background
 nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
 # Wait briefly to ensure proxymock starts
