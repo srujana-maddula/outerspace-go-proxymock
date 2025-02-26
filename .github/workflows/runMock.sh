@@ -46,14 +46,13 @@ fi
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Using snapshot: $SNAPSHOT_ID"
 
-# Display reactions.jsonl if it exists
-ls -al "$HOME/.speedscale/data/snapshots/$SNAPSHOT_ID/"
-REACTIONS_FILE="$HOME/.speedscale/data/snapshots/$SNAPSHOT_ID/reactions.jsonl"
+# Display reaction.jsonl if it exists
+REACTIONS_FILE="$HOME/.speedscale/data/snapshots/$SNAPSHOT_ID/reaction.jsonl"
 if [[ -f "$REACTIONS_FILE" ]]; then
-  echo "Contents of reactions.jsonl:"
+  echo "Contents of reaction.jsonl:"
   cat "$REACTIONS_FILE"
 else
-  echo "Warning: reactions.jsonl not found in snapshots directory."
+  echo "Warning: reaction.jsonl not found in snapshots directory."
 fi
 
 # Start proxymock in the background
