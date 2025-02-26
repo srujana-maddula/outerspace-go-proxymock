@@ -34,7 +34,7 @@ jobs:
 
     - name: Import and run proxymock
       run: |
-        ~/.speedscale/proxymock import --file .speedscale/snapshot/5e5ad11f-bda5-40b7-b5df-21e6f8effb87.json
+        ~/.speedscale/proxymock import --file .speedscale/snapshot/raw.jsonl
         FILENAME=$(ls ~/.speedscale/data/snapshots/*.json)
         echo "Snapshot filename: ${FILENAME}"
         SNAPSHOT_ID=$(basename "$FILENAME" .json)

@@ -1,4 +1,0 @@
-{"msgType":"event","version":"0.0.1","name":"responder.totalTransactions.sum","tags":{"provider":"http"},"ts":"2025-02-25T15:33:52.040656Z","type":"GAUGE","gaugeVal":{"val":2}}
-{"msgType":"event","version":"0.0.1","name":"responder.totalTransactions.sum","tags":{"provider":"http"},"ts":"2025-02-25T15:34:52.041484Z","type":"GAUGE","gaugeVal":{"val":2}}
-{"msgType":"event","version":"0.0.1","name":"sigReport","tags":{"sentRRPairCount":"2","source":"responder","tenantId":"","testReportId":"e14275cd-2f7b-4cb7-a3f9-1ab0f866b5ec"},"ts":"2025-02-25T15:34:53.510856Z","type":"STRING","stringVal":{"val":"responderDone"}}
-{"msgType":"event","version":"0.0.1","name":"responder.totalTransactions.sum","tags":{"provider":"http"},"ts":"2025-02-25T15:34:54.020597Z","type":"GAUGE","gaugeVal":{"val":2}}
