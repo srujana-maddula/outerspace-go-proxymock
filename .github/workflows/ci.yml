@@ -35,19 +35,12 @@ jobs:
     - name: Install Dependencies
       run: go mod download
 
-    - name: Check proxymock
-      run: cat proxymock.log
-
     - name: Run Integration Tests
       run: |
         export http_proxy=socks5h://localhost:4140
         export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
-        cat proxymock.log
-
-    - name: Check log
-      run: echo proxymock.log
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3

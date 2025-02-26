@@ -41,3 +41,4 @@ echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
 nohup proxymock run  --service http=18080 --service https=18443 --snapshot-id "$SNAPSHOT_ID"> proxymock.log 2>&1 &
 
 echo "Proxymock started successfully."
+cat proxymock.log
