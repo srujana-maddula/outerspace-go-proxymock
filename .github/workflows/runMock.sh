@@ -38,6 +38,6 @@ proxymock import --file .speedscale/raw.jsonl
 FILENAME=$(ls ~/.speedscale/data/snapshots/*.json)
 SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
-nohup ~/.speedscale/proxymock run --snapshot-id "$SNAPSHOT_ID" --service http=18080 > proxymock.log 2>&1 &
+nohup proxymock run  --service http=18080 --service https=18443 --snapshot-id "$SNAPSHOT_ID"> proxymock.log 2>&1 &
 
 echo "Proxymock started successfully."

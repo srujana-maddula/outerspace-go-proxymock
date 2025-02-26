@@ -1,0 +1,75 @@
+2025-02-26 09:29:05 INFO  START goproxy  ( hostname:Kens-MacBook-M2-Pro.local )
+2025-02-26 09:29:05 INFO  Settings  ( settings:{"Tenant":{"id":"","name":"","cloud":"","region":"","bucket":""},"SubTenant":{"id":"","name":"","stream":"","rootTenant":{"id":"","name":"","cloud":"","region":"","bucket":""}},"ProxyUID":2102,"ProxyInPort":4143,"ProxyOutPort":0,"ForwarderAddr":"speedscale-forwarder.speedscale.svc:80","RecordActive":true,"ConfigYaml":"","IgnoreSrcs":null,"IgnoreDsts":null,"IgnoreSrcHosts":null,"IgnoreDstHosts":null,"LogLevel":"debug","LogLevelAutoReset":true,"LogFormat":"json","MetricsExportEnabled":false,"MetricsExportIntervalSec":60,"MetricsHTTPEnabled":true,"MetricsHTTPPort":4145,"TagsString":"","HTTPHeaderExtract":"","OperatingMode":{"CaptureMode":"proxy","ProxyType":"dual","ProxyProtocol":"tcp:http"},"ReverseProxyHost":"localhost","ReverseProxyPort":8080,"ProxyRequireTLS":false,"ProxyRequireAuth":false,"AppPodName":"","AppPodNamespace":"","AppLabel":"","TLSOutUnwrapEnabled":false,"TLSInUnwrapEnabled":false,"TLSInPrivateKey":"","TLSInPublicKey":"","TLSMutualPrivateKey":"","TLSMutualPublicKey":"","MongoDBDetectionEnabled":false,"IMAPDetectionEnabled":false,"EnableRuntimeDiagnostics":false,"EnablePacketDiagnostics":false,"DiagnosticsOutputDirectory":"/var/folders/03/5cj67zs16kg2qhx4c4bgs4800000gn/T/","MaxHTTPPayloadBytes":512000,"APIPort":4144,"IntrospectionPort":4100,"CollectionMode":"forwarder","SnapshotDir":"/var/speedscale/snapshots","SnapshotID":"261268e5-4350-4385-9b61-943d34af606e","SnapshotServiceName":"sut","InitIptables":false,"ForcePassthrough":false,"HostResolution":"smart","TLSAutodiscoveryEnabled":false,"TLSAutodiscoveryScanDir":"/Users/kahrens/.speedscale/certs","ConnectionBufferSizeBytes":4096,"SpeedscaleAppURL":"app.speedscale.com","CloudCredsCacheExp":3600000000000,"ProxyDialTimeout":300000000000,"ProxyDialRetries":20,"ProxyDialRetryDelay":5000000000,"ProxyDialRetryInbound":true,"ProxyDialRetryOutbound":true,"UpstreamReverseProxies":null,"UpstreamReverseProxyMap":{},"PollTimeout":50000000,"ReadTimeout":10000000,"ReadBufferSize":1024,"ProxyInHTTPOnly":false,"UseProtocolHints":false,"ValidateProtocolHints":false,"StrictProtocolHints":false} )
+2025-02-26 09:29:05 INFO  starting proxy (dual) capture
+2025-02-26 09:29:05 INFO  inbound tls decoding via explicit cert or autodiscovery is disabled
+2025-02-26 09:29:05 INFO  Mutual TLS certificate NOT registered (TLS_MUTUAL_PUBLIC_KEY or TLS_MUTUAL_PRIVATE_KEY are missing)
+2025-02-26 09:29:05 DEBUG logging successfully connected to telemetry reporter  ( source:proxymock )
+2025-02-26 09:29:05 INFO  starting smart proxy  ( proxyIn:false proxyPort:0 )
+2025-02-26 09:29:05 INFO  scanning for valid certificates to use for inbound tls  ( reverseDst:localhost:8080 listenPort:4143 proxyDir:in )
+2025-02-26 09:29:05 INFO  starting proxy api server  ( addr::4144 )
+2025-02-26 09:29:05 INFO  found certificate and key pair  ( certFilename:/Users/kahrens/.speedscale/certs/tls.crt listenPort:4143 proxyDir:in reverseDst:localhost:8080 keyFilename:/Users/kahrens/.speedscale/certs/tls.key )
+2025-02-26 09:29:05 WARN  failed to initialize smart mode host resolution, falling back to simple mode  ( error:packet based host resolution is not enabled in this build )
+2025-02-26 09:29:05 DEBUG logging successfully connected to telemetry reporter  ( source:proxymock )
+2025-02-26 09:29:05 INFO  starting tcp proxy  ( listenPort:4143 proxyDir:in reverseDst:localhost:8080 addr::4143 proxyIn:true )
+──────────────────────────────────────── OVERVIEW ───────────────────────────────────────────
+
+The Speedscale responder will be started with the following protocol providers:
+
+Provider HTTPS listening on port [59437]
+Provider HTTP listening on port [59438]
+Requests to port 4143 will be captured before being forwarded to your app.
+
+
+The socks5/http compatible proxy interface will be available on port 4140. The above mock providers can be
+accessed directly, but for simplicity, you may wish to route your application's outbound traffic through
+this single endpoint. Configure your proxy settings according to your specific language or library, most
+of which can be configured with environment variables:
+  export http_proxy=http://localhost:4140
+  export https_proxy=http://localhost:4140
+
+Requests to port 4143 will be captured before being forwarded to your app.
+Capture inbound traffic by calling proyxmock instead of your app like:
+  curl http://localhost:4143/
+
+IMPORTANT: when using the socks proxy, you MUST specify the protocol as socks5h rather than socks5.
+Using socks5 will perform DNS queries prior to issuing proxy requests, which results in requests that use
+explicit IP addresses as proxy destinations. Because of this, the responder won't be able to determine if it
+matches a mocked endpoint and will instead send the request to the actual destination. Specifying socks5h
+corrects this by sending proxy requests with destination hostnames rather than IP addresses.
+
+Refer to the Speedscale documentation at https://docs.speedscale.com/reference/proxy_config/ for some
+examples of various languages and libraries that may not directly support these options.
+
+For Postman, update update your application settings to use the proxy server http://localhost:4140
+by following the directions here:
+
+https://learning.postman.com/docs/getting-started/installation/proxy/
+
+See https://docs.speedscale.com/setup/sidecar/tls/#trusting-tls-certificates to ensure your application
+trusts the Speedscale TLS certificate being used for TLS connections.
+
+For a more detailed overview of this command, run: proxymock run --help
+
+
+proxymock is capturing and mocking snapshot 261268e5-4350-4385-9b61-943d34af606e
+
+Press ctrl-c to interrupt
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+2025-02-26 09:29:05 INFO  using signature cache database: /var/folders/03/5cj67zs16kg2qhx4c4bgs4800000gn/T/sigcache.2947090446.db  ( cmdId:proxymock reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST )
+2025-02-26 09:29:05 DEBUG populating signature cache  ( startTime:2025-02-26 09:29:05.478261 -0500 EST cmdId:proxymock reqId:1 )
+2025-02-26 09:29:05 TRACE populated cache  ( reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST cmdId:proxymock count:2 triggers:0 )
+2025-02-26 09:29:05 TRACE extracted streams  ( cmdId:proxymock reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST count:0 )
+2025-02-26 09:29:05 DEBUG signature cache populated  ( startTime:2025-02-26 09:29:05.478261 -0500 EST cmdId:proxymock reqId:1 )
+2025-02-26 09:29:05 WARN  failed to initialize smart mode host resolution, falling back to simple mode  ( error:packet based host resolution is not enabled in this build )
+2025-02-26 09:29:05 INFO  local recorder activated  ( source:proxymock snapshotId:261268e5-4350-4385-9b61-943d34af606e )
+2025-02-26 09:29:05 DEBUG tls settings configured  ( source:responder nextProtos:[] serverName: )
+2025-02-26 09:29:05 DEBUG using test config  ( source:responder configuration:{"id":"regression","generator":{"stages":[{"virtualUsers":{"virtualUsers":"1","requestDelay":{}}}],"evaluationIntervals":5},"rules":[{"metricName":"passAssertPct","type":"TOO_LOW","value":100,"action":"ALERT"}],"version":3,"assertionGroups":[{"configs":[{"type":"httpStatusCode"},{"type":"httpHeaders","config":{"headers":"Content-Type"}},{"type":"httpResponseSchema"}]}],"responder":{"numReplicas":1,"passthroughMode":true},"cluster":{"cleanup":"inventory","replayMode":"responder-only","sidecarTlsOut":true,"logLevel":"info","logsCollected":true},"protected":true} )
+2025-02-26 09:29:05 INFO  starting smart proxy  ( cmdId:proxymock reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST proxyIn:false proxyPort:4140 )
+2025-02-26 09:29:05 INFO  starting provider  ( protocol:https port:59437 cmdId:proxymock reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST )
+2025-02-26 09:29:05 TRACE TLS Config settings  ( source:responder configHasCert:true )
+2025-02-26 09:29:05 INFO  starting provider  ( cmdId:proxymock reqId:1 startTime:2025-02-26 09:29:05.478261 -0500 EST protocol:http port:59438 )
+2025-02-26 09:29:05 INFO  https server listening on [::]:59437  ( source:responder )
+2025-02-26 09:29:05 INFO  health server listening on [::]:4444  ( source:responder )
+2025-02-26 09:29:05 INFO  http provider listening on [::]:59438  ( source:responder )
