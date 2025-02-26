@@ -19,7 +19,7 @@ export PATH="$HOME/.speedscale:$PATH"
 echo "Updated PATH to include proxymock: $PATH"
 
 # Verify installation
-proxymock --version || { echo "Proxymock installation failed"; exit 1; }
+proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Initialize proxymock with API key
 echo "Initializing proxymock..."
