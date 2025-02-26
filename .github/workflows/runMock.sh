@@ -19,9 +19,13 @@ export PATH="$HOME/.speedscale:$PATH"
 echo "Updated PATH to include proxymock: $PATH"
 
 # Initialize proxymock with API key
-echo "Initializing proxymock..."
-~/.speedscale/proxymock init --api-key "${{ secrets.PROXYMOCK_API_KEY }}"
+if [[ -z "$PROXYMOCK_API_KEY" ]]; then
+  echo "Error: PROXYMOCK_API_KEY is not set."
+  exit 1
+fi
 
+echo "Initializing proxymock..."
+~/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
 # Verify installation
 proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
