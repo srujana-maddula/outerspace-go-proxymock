@@ -34,6 +34,8 @@ echo "Combined JSON files into .speedscale/raw.jsonl"
 echo "Importing snapshot..."
 proxymock import --file .speedscale/raw.jsonl
 
+sleep 1
+
 # Locate the correct snapshot file
 FILENAME=$(find ~/.speedscale/data/snapshots -maxdepth 1 -type f -name "*.json" | head -n 1)
 if [[ -z "$FILENAME" ]]; then
@@ -66,4 +68,3 @@ if ! pgrep -f "proxymock run"; then
 fi
 
 echo "Proxymock started successfully."
-cat proxymock.log
