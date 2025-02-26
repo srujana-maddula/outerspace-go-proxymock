@@ -21,10 +21,10 @@ if [[ -z "$PROXYMOCK_API_KEY" ]]; then
 fi
 
 echo "Initializing proxymock..."
-~/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
+proxymock init --api-key "$PROXYMOCK_API_KEY"
 
 # Verify installation
-~/.speedscale/proxymock version || { echo "Proxymock installation failed"; exit 1; }
+proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Find all JSON files inside .speedscale and its subdirectories, then concatenate them into .speedscale/raw.jsonl
 find .speedscale -type f -name "*.json" -exec cat {} + | jq -c '.' > .speedscale/raw.jsonl
@@ -32,7 +32,7 @@ echo "Combined JSON files into .speedscale/raw.jsonl"
 
 # Import and run proxymock
 echo "Importing snapshot..."
-~/.speedscale/proxymock import --file .speedscale/raw.jsonl
+proxymock import --file .speedscale/raw.jsonl
 
 # Get the first snapshot file
 FILENAME=$(find ~/.speedscale/data/snapshots -type f -name "*.json" | head -n 1)
@@ -45,8 +45,7 @@ SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Running proxymock with snapshot ID $SNAPSHOT_ID..."
 
 # Start proxymock in the background
-nohup ~/.speedscale/proxymock run --service http=18080 --service https=18443 --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
-
+nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
 # Wait briefly to ensure proxymock starts
 sleep 5
 
