@@ -18,12 +18,12 @@ echo "Proxymock installed successfully."
 export PATH="$HOME/.speedscale:$PATH"
 echo "Updated PATH to include proxymock: $PATH"
 
-# Verify installation
-proxymock version || { echo "Proxymock installation failed"; exit 1; }
-
 # Initialize proxymock with API key
 echo "Initializing proxymock..."
 ~/.speedscale/proxymock init --api-key "${{ secrets.PROXYMOCK_API_KEY }}"
+
+# Verify installation
+proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Import and run proxymock
 echo "Importing snapshot..."
