@@ -27,8 +27,8 @@ proxymock init --api-key "$PROXYMOCK_API_KEY"
 proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Find all JSON files inside .speedscale and its subdirectories, then concatenate them into .speedscale/raw.jsonl
-find .speedscale -type f -name "*.json" -exec cat {} + | jq -c '.' > .speedscale/raw.jsonl
-echo "Combined JSON files into .speedscale/raw.jsonl"
+# find .speedscale -type f -name "*.json" -exec cat {} + | jq -c '.' > .speedscale/raw.jsonl
+# echo "Combined JSON files into .speedscale/raw.jsonl"
 
 # Import the snapshot
 echo "Importing snapshot..."
