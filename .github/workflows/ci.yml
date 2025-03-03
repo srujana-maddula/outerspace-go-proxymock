@@ -42,8 +42,8 @@ jobs:
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
     
-    - name: Run integration tests without proxymock
-      run: go test -v ./...
+    # - name: Run integration tests without proxymock
+    #   run: go test -v ./...
       
     # - name: Set up QEMU
     #   uses: docker/setup-qemu-action@v3
