@@ -47,31 +47,6 @@ func (suite *APITestSuite) SetupTest() {
 }
 
 func (suite *APITestSuite) TearDownTest() {
-	// Restore original proxy settings
-	if suite.originalHTTPProxy != "" {
-		os.Setenv("http_proxy", suite.originalHTTPProxy)
-	} else {
-		os.Unsetenv("http_proxy")
-	}
-	if suite.originalHTTPSProxy != "" {
-		os.Setenv("https_proxy", suite.originalHTTPSProxy)
-	} else {
-		os.Unsetenv("https_proxy")
-	}
-	log.Info().Msg("Restored original proxy settings")
-
-	// Stop proxymock
-	if suite.proxymockCmd != nil && suite.proxymockCmd.Process != nil {
-		if err := suite.proxymockCmd.Process.Kill(); err != nil {
-			log.Error().Err(err).Msg("Failed to kill proxymock process")
-		}
-		_, err := suite.proxymockCmd.Process.Wait()
-		if err != nil {
-			log.Error().Err(err).Msg("Error waiting for proxymock process to exit")
-		}
-		log.Info().Msg("Stopped proxymock")
-	}
-
 	// Stop test server
 	if suite.server != nil {
 		suite.server.Close()
@@ -165,17 +140,7 @@ func (suite *APITestSuite) TestRecordedAPIs() {
 				err = json.Unmarshal(actualBody, &actualJSON)
 				assert.NoError(suite.T(), err, "Failed to parse actual JSON")
 
-				// For the numbers API, we only check the structure since the content is random
-				// if rrpair.HTTP.Req.URI == "/api/numbers" {
-				// 	log.Info().Msg("Checking numbers API structure only")
-				// 	assert.NotNil(suite.T(), actualJSON)
-				// 	responseMap := actualJSON.(map[string]interface{})
-				// 	assert.Contains(suite.T(), responseMap, "text")
-				// 	assert.Contains(suite.T(), responseMap, "number")
-				// 	assert.Contains(suite.T(), responseMap, "found")
-				// 	assert.Contains(suite.T(), responseMap, "type")
-				// } else {
-				// For other endpoints, compare the full structure
+				// Compare the full structure
 				assert.Equal(suite.T(), expectedJSON, actualJSON,
 					"Response body mismatch")
 				// }
