@@ -27,10 +27,10 @@ jobs:
       with:
         go-version: '1.23'
     
-    - name: Run proxymock
-      env:
-        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
-      run: .github/workflows/runMock.sh
+    # - name: Run proxymock
+    #   env:
+    #     PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
+    #   run: .github/workflows/runMock.sh
 
     - name: Install dependencies
       run: go mod download
@@ -42,8 +42,8 @@ jobs:
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
     
-    # - name: Run integration tests without proxymock
-    #   run: go test -v ./...
+    - name: Run integration tests without proxymock
+      run: go test -v ./...
       
     # - name: Set up QEMU
     #   uses: docker/setup-qemu-action@v3
