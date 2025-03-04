@@ -24,14 +24,14 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.24'
+    - name: Install dependencies
+      run: go mod download
     - name: Run integration tests without proxymock
       run: go test -v ./...
     - name: Run proxymock
       env:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: .github/workflows/runMock.sh
-    - name: Install dependencies
-      run: go mod download
     - name: Run integration tests with proxymock
       run: |
         export http_proxy=socks5h://localhost:4140
