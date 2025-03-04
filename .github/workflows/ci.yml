@@ -46,6 +46,13 @@ jobs:
         go test -v ./...
   
   test-and-build-container:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
