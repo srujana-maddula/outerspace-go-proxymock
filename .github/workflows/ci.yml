@@ -38,29 +38,29 @@ jobs:
         export https_proxy=socks5h://localhost:4140
         export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
         go test -v ./...
-  test-and-build-container:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
-    steps:
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Log in to the Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        logout: false
-    - name: Build and Push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: ghcr.io/speedscale/outerspace-go:latest
+  # test-and-build-container:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #     attestations: write
+  #     id-token: write
+  #   steps:
+  #   - name: Set up QEMU
+  #     uses: docker/setup-qemu-action@v3
+  #   - name: Set up Docker Buildx
+  #     uses: docker/setup-buildx-action@v3
+  #   - name: Log in to the Container Registry
+  #     uses: docker/login-action@v3
+  #     with:
+  #       registry: ${{ env.REGISTRY }}
+  #       username: ${{ github.actor }}
+  #       password: ${{ secrets.GITHUB_TOKEN }}
+  #       logout: false
+  #   - name: Build and Push
+  #     uses: docker/build-push-action@v5
+  #     with:
+  #       context: .
+  #       platforms: linux/amd64,linux/arm64
+  #       push: true
+  #       tags: ghcr.io/speedscale/outerspace-go:latest
