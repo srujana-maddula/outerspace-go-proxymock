@@ -26,11 +26,5 @@ jobs:
         go-version: '1.24'
     - name: Install dependencies
       run: go mod download
-    - name: Setup proxymock
-      env:
-        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
-      run: make proxymock-setup
-    - name: Run proxymock
-      run: make proxymock-run
-    - name: Run tests with proxymock
-      run: make test-with-proxymock
+    - name: Run tests
+      run: make test
