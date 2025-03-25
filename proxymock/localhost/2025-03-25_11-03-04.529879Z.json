@@ -1,0 +1,83 @@
+{
+  "msgType":  "rrpair",
+  "ts":  "2025-03-25T11:03:04.529879Z",
+  "l7protocol":  "http",
+  "duration":  197,
+  "tags":  {
+    "captureMode":  "proxy",
+    "proxyLocation":  "in",
+    "proxyProtocol":  "tcp:http",
+    "proxyType":  "dual",
+    "proxyVersion":  "v2.3.321",
+    "reverseProxyHost":  "localhost",
+    "reverseProxyPort":  "8080",
+    "sequence":  "2",
+    "source":  "goproxy"
+  },
+  "uuid":  "7OUhoGG5RrKiBWRL/bEobg==",
+  "direction":  "IN",
+  "cluster":  "undefined",
+  "namespace":  "undefined",
+  "service":  "undefined",
+  "network_address":  "localhost:8080",
+  "command":  "GET",
+  "location":  "/api/numbers",
+  "status":  "200",
+  "http":  {
+    "req":  {
+      "url":  "/api/numbers",
+      "uri":  "/api/numbers",
+      "version":  "1.1",
+      "method":  "GET",
+      "host":  "localhost:8080",
+      "headers":  {
+        "Accept-Encoding":  [
+          "gzip, deflate"
+        ],
+        "Connection":  [
+          "close"
+        ],
+        "Host":  [
+          "localhost:8080"
+        ],
+        "User-Agent":  [
+          "vscode-restclient"
+        ]
+      }
+    },
+    "res":  {
+      "contentType":  "application/json",
+      "statusCode":  200,
+      "statusMessage":  "200 OK",
+      "headers":  {
+        "Content-Length":  [
+          "97"
+        ],
+        "Content-Type":  [
+          "application/json"
+        ],
+        "Date":  [
+          "Tue, 25 Mar 2025 11:03:04 GMT"
+        ]
+      },
+      "bodyBase64":  "eyJ0ZXh0IjoiNzg3IGlzIGEgcGFsaW5kcm9tZSBpbiBiYXNlIDMgYW5kIGluIGJhc2UgMTAuIiwibnVtYmVyIjo3ODcsImZvdW5kIjp0cnVlLCJ0eXBlIjoibWF0aCJ9Cg=="
+    }
+  },
+  "netinfo":  {
+    "id":  "2",
+    "startTime":  "2025-03-25T11:03:04.529800Z",
+    "downstream":  {
+      "established":  "2025-03-25T11:03:04.528664Z",
+      "ipAddress":  "127.0.0.1",
+      "port":  57287,
+      "bytesSent":  "133"
+    },
+    "upstream":  {
+      "established":  "2025-03-25T11:03:04.529437Z",
+      "ipAddress":  "127.0.0.1",
+      "port":  8080,
+      "hostname":  "localhost",
+      "bytesSent":  "224"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-@host = localhost:8080
+@host = localhost:4143
 
 ### List available API calls
 GET http://{{host}}/
@@ -18,5 +18,3 @@ host: localhost:8080
 ### Details of specific rocket
 GET http://{{host}}/api/rocket?id=5e9d0d96eda699382d09d1ee
 host: localhost:8080
-
-

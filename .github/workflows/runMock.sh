@@ -27,8 +27,8 @@ proxymock init --api-key "$PROXYMOCK_API_KEY"
 proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Import the snapshot
-echo "Importing snapshot..."
-proxymock import --file .speedscale/raw.jsonl
+echo "Analyzing snapshot..."
+proxymock analyze
 
 # Locate the correct snapshot file
 FILENAME=$(find ~/.speedscale/data/snapshots -maxdepth 1 -type f -name "*.json" | head -n 1)

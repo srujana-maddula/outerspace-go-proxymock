@@ -1,0 +1,88 @@
+{
+  "msgType":  "rrpair",
+  "ts":  "2025-03-25T11:03:10.164086Z",
+  "l7protocol":  "http",
+  "duration":  50,
+  "tags":  {
+    "captureMode":  "proxy",
+    "proxyLocation":  "in",
+    "proxyProtocol":  "tcp:http",
+    "proxyType":  "dual",
+    "proxyVersion":  "v2.3.321",
+    "reverseProxyHost":  "localhost",
+    "reverseProxyPort":  "8080",
+    "sequence":  "5",
+    "source":  "goproxy"
+  },
+  "uuid":  "8SERX0QxTiy0Dh1xO2YBKA==",
+  "direction":  "IN",
+  "cluster":  "undefined",
+  "namespace":  "undefined",
+  "service":  "undefined",
+  "network_address":  "localhost:8080",
+  "command":  "GET",
+  "location":  "/api/rocket",
+  "status":  "200",
+  "http":  {
+    "req":  {
+      "url":  "/api/rocket",
+      "uri":  "/api/rocket?id=5e9d0d96eda699382d09d1ee",
+      "version":  "1.1",
+      "method":  "GET",
+      "host":  "localhost:8080",
+      "headers":  {
+        "Accept-Encoding":  [
+          "gzip, deflate"
+        ],
+        "Connection":  [
+          "close"
+        ],
+        "Host":  [
+          "localhost:8080"
+        ],
+        "User-Agent":  [
+          "vscode-restclient"
+        ]
+      },
+      "queryParams":  {
+        "id":  [
+          "5e9d0d96eda699382d09d1ee"
+        ]
+      }
+    },
+    "res":  {
+      "contentType":  "application/json",
+      "statusCode":  200,
+      "statusMessage":  "200 OK",
+      "headers":  {
+        "Content-Length":  [
+          "422"
+        ],
+        "Content-Type":  [
+          "application/json"
+        ],
+        "Date":  [
+          "Tue, 25 Mar 2025 11:03:10 GMT"
+        ]
+      },
+      "bodyBase64":  "eyJpZCI6IjVlOWQwZDk2ZWRhNjk5MzgyZDA5ZDFlZSIsIm5hbWUiOiJTdGFyc2hpcCIsImRlc2NyaXB0aW9uIjoiU3RhcnNoaXAgYW5kIFN1cGVyIEhlYXZ5IFJvY2tldCByZXByZXNlbnQgYSBmdWxseSByZXVzYWJsZSB0cmFuc3BvcnRhdGlvbiBzeXN0ZW0gZGVzaWduZWQgdG8gc2VydmljZSBhbGwgRWFydGggb3JiaXQgbmVlZHMgYXMgd2VsbCBhcyB0aGUgTW9vbiBhbmQgTWFycy4gVGhpcyB0d28tc3RhZ2UgdmVoaWNsZSDigJQgY29tcG9zZWQgb2YgdGhlIFN1cGVyIEhlYXZ5IHJvY2tldCAoYm9vc3RlcikgYW5kIFN0YXJzaGlwIChzaGlwKSDigJQgd2lsbCBldmVudHVhbGx5IHJlcGxhY2UgRmFsY29uIDksIEZhbGNvbiBIZWF2eSBhbmQgRHJhZ29uLiIsImhlaWdodCI6eyJtZXRlcnMiOjExOH0sIm1hc3MiOnsia2ciOjEzMzUwMDB9fQo="
+    }
+  },
+  "netinfo":  {
+    "id":  "5",
+    "startTime":  "2025-03-25T11:03:10.163991Z",
+    "downstream":  {
+      "established":  "2025-03-25T11:03:10.162968Z",
+      "ipAddress":  "127.0.0.1",
+      "port":  57311,
+      "bytesSent":  "160"
+    },
+    "upstream":  {
+      "established":  "2025-03-25T11:03:10.163684Z",
+      "ipAddress":  "127.0.0.1",
+      "port":  8080,
+      "hostname":  "localhost",
+      "bytesSent":  "550"
+    }
+  }
+}
