@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -20,10 +19,7 @@ import (
 
 type APITestSuite struct {
 	suite.Suite
-	server             *httptest.Server
-	proxymockCmd       *exec.Cmd
-	originalHTTPProxy  string
-	originalHTTPSProxy string
+	server *httptest.Server
 }
 
 func (suite *APITestSuite) SetupTest() {
