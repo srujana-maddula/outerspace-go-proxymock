@@ -30,5 +30,7 @@ jobs:
       env:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: make proxymock-setup
+    - name: Run proxymock
+      run: make proxymock-run
     - name: Run tests with proxymock
       run: make test-with-proxymock
