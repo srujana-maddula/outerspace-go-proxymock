@@ -8,7 +8,6 @@ test-with-proxymock:
 	export https_proxy=socks5h://localhost:4140 && \
 	export SSL_CERT_FILE=~/.speedscale/certs/tls.crt && \
 	go test -v ./...
-	$(MAKE) proxymock-stop
 
 coverage:
 	go test -v -coverprofile=coverage.out ./...
