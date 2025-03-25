@@ -26,15 +26,6 @@ jobs:
         go-version: '1.24'
     - name: Install dependencies
       run: go mod download
-    # - name: Run integration tests
-    #   run: go test -v ./...
-    - name: Run proxymock
-      env:
-        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
-      run: .github/workflows/runMock.sh
-    - name: Run integration tests with proxymock
-      run: |
-        export http_proxy=socks5h://localhost:4140
-        export https_proxy=socks5h://localhost:4140
-        export SSL_CERT_FILE=~/.speedscale/certs/tls.crt
-        go test -v ./...
+    - name: Run integration tests
+      run: go test -v ./...
+

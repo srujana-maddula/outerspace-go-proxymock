@@ -28,16 +28,11 @@ proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Import the snapshot
 echo "Analyzing snapshot..."
-proxymock analyze
-
-# Locate the correct snapshot file
-FILENAME=$(find ~/.speedscale/data/snapshots -maxdepth 1 -type f -name "*.json" | head -n 1)
-if [[ -z "$FILENAME" ]]; then
-  echo "Error: No snapshot file found!"
+SNAPSHOT_ID=$(proxymock analyze | grep "snapshotId:" | head -n 1 | sed 's/.*snapshotId:\([^ ]*\).*/\1/')
+if [[ -z "$SNAPSHOT_ID" ]]; then
+  echo "Error: Could not extract snapshot ID from proxymock analyze output!"
   exit 1
 fi
-
-SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Using snapshot: $SNAPSHOT_ID"
 
 # Start proxymock in the background

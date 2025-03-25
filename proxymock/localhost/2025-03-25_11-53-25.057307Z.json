@@ -1,8 +1,8 @@
 {
   "msgType":  "rrpair",
-  "ts":  "2025-03-25T11:24:30.225147Z",
+  "ts":  "2025-03-25T11:53:25.057307Z",
   "l7protocol":  "http",
-  "duration":  56,
+  "duration":  124,
   "tags":  {
     "captureMode":  "proxy",
     "proxyLocation":  "in",
@@ -11,22 +11,22 @@
     "proxyVersion":  "v2.3.321",
     "reverseProxyHost":  "localhost",
     "reverseProxyPort":  "8080",
-    "sequence":  "4",
+    "sequence":  "3",
     "source":  "goproxy"
   },
-  "uuid":  "/h9Y4InoRtGOhtqhSC5/OQ==",
+  "uuid":  "PSbq3i5IT064R0jLkd8mNA==",
   "direction":  "IN",
   "cluster":  "undefined",
   "namespace":  "undefined",
   "service":  "undefined",
   "network_address":  "localhost:8080",
   "command":  "GET",
-  "location":  "/api/rockets",
+  "location":  "/api/latest-launch",
   "status":  "200",
   "http":  {
     "req":  {
-      "url":  "/api/rockets",
-      "uri":  "/api/rockets",
+      "url":  "/api/latest-launch",
+      "uri":  "/api/latest-launch",
       "version":  "1.1",
       "method":  "GET",
       "host":  "localhost:8080",
@@ -51,33 +51,33 @@
       "statusMessage":  "200 OK",
       "headers":  {
         "Content-Length":  [
-          "214"
+          "104"
         ],
         "Content-Type":  [
           "application/json"
         ],
         "Date":  [
-          "Tue, 25 Mar 2025 11:24:30 GMT"
+          "Tue, 25 Mar 2025 11:53:25 GMT"
         ]
       },
-      "bodyBase64":  "W3siaWQiOiI1ZTlkMGQ5NWVkYTY5OTU1ZjcwOWQxZWIiLCJuYW1lIjoiRmFsY29uIDEifSx7ImlkIjoiNWU5ZDBkOTVlZGE2OTk3M2E4MDlkMWVjIiwibmFtZSI6IkZhbGNvbiA5In0seyJpZCI6IjVlOWQwZDk1ZWRhNjk5NzRkYjA5ZDFlZCIsIm5hbWUiOiJGYWxjb24gSGVhdnkifSx7ImlkIjoiNWU5ZDBkOTZlZGE2OTkzODJkMDlkMWVlIiwibmFtZSI6IlN0YXJzaGlwIn1dCg=="
+      "bodyBase64":  "eyJmbGlnaHRfbnVtYmVyIjoxODcsIm5hbWUiOiJDcmV3LTUiLCJkYXRlX3V0YyI6IjIwMjItMTAtMDVUMTY6MDA6MDAuMDAwWiIsInN1Y2Nlc3MiOnRydWUsImRldGFpbHMiOiIifQo="
     }
   },
   "netinfo":  {
-    "id":  "4",
-    "startTime":  "2025-03-25T11:24:30.225069Z",
+    "id":  "3",
+    "startTime":  "2025-03-25T11:53:25.057199Z",
     "downstream":  {
-      "established":  "2025-03-25T11:24:30.224432Z",
+      "established":  "2025-03-25T11:53:25.056498Z",
       "ipAddress":  "127.0.0.1",
-      "port":  60231,
-      "bytesSent":  "133"
+      "port":  64866,
+      "bytesSent":  "139"
     },
     "upstream":  {
-      "established":  "2025-03-25T11:24:30.224867Z",
+      "established":  "2025-03-25T11:53:25.056954Z",
       "ipAddress":  "127.0.0.1",
       "port":  8080,
       "hostname":  "localhost",
-      "bytesSent":  "342"
+      "bytesSent":  "232"
     }
   }
 }
