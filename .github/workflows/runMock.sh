@@ -41,7 +41,7 @@ SNAPSHOT_ID=$(basename "$FILENAME" .json)
 echo "Using snapshot: $SNAPSHOT_ID"
 
 # Start proxymock in the background
-nohup proxymock run --service "http=18080" --service "https=18443" --snapshot-id "$SNAPSHOT_ID" > proxymock.log 2>&1 &
+nohup proxymock run --service "http=18080" --service "https=18443" --snapshot "$SNAPSHOT_ID" > proxymock.log 2>&1 &
 # Wait briefly to ensure proxymock starts
 sleep 5
 
