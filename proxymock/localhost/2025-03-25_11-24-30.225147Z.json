@@ -1,8 +1,8 @@
 {
   "msgType":  "rrpair",
-  "ts":  "2025-03-25T11:03:08.096558Z",
+  "ts":  "2025-03-25T11:24:30.225147Z",
   "l7protocol":  "http",
-  "duration":  52,
+  "duration":  56,
   "tags":  {
     "captureMode":  "proxy",
     "proxyLocation":  "in",
@@ -14,7 +14,7 @@
     "sequence":  "4",
     "source":  "goproxy"
   },
-  "uuid":  "dwu13MHAR429gedNchEhrg==",
+  "uuid":  "/h9Y4InoRtGOhtqhSC5/OQ==",
   "direction":  "IN",
   "cluster":  "undefined",
   "namespace":  "undefined",
@@ -57,7 +57,7 @@
           "application/json"
         ],
         "Date":  [
-          "Tue, 25 Mar 2025 11:03:08 GMT"
+          "Tue, 25 Mar 2025 11:24:30 GMT"
         ]
       },
       "bodyBase64":  "W3siaWQiOiI1ZTlkMGQ5NWVkYTY5OTU1ZjcwOWQxZWIiLCJuYW1lIjoiRmFsY29uIDEifSx7ImlkIjoiNWU5ZDBkOTVlZGE2OTk3M2E4MDlkMWVjIiwibmFtZSI6IkZhbGNvbiA5In0seyJpZCI6IjVlOWQwZDk1ZWRhNjk5NzRkYjA5ZDFlZCIsIm5hbWUiOiJGYWxjb24gSGVhdnkifSx7ImlkIjoiNWU5ZDBkOTZlZGE2OTkzODJkMDlkMWVlIiwibmFtZSI6IlN0YXJzaGlwIn1dCg=="
@@ -65,15 +65,15 @@
   },
   "netinfo":  {
     "id":  "4",
-    "startTime":  "2025-03-25T11:03:08.096439Z",
+    "startTime":  "2025-03-25T11:24:30.225069Z",
     "downstream":  {
-      "established":  "2025-03-25T11:03:08.095303Z",
+      "established":  "2025-03-25T11:24:30.224432Z",
       "ipAddress":  "127.0.0.1",
-      "port":  57306,
+      "port":  60231,
       "bytesSent":  "133"
     },
     "upstream":  {
-      "established":  "2025-03-25T11:03:08.096115Z",
+      "established":  "2025-03-25T11:24:30.224867Z",
       "ipAddress":  "127.0.0.1",
       "port":  8080,
       "hostname":  "localhost",

@@ -1,31 +1,31 @@
 {
   "msgType":  "rrpair",
   "resource":  "responder",
-  "ts":  "2025-03-25T11:03:06.366911Z",
+  "ts":  "2025-03-25T11:24:36.101382Z",
   "l7protocol":  "https",
-  "duration":  92,
+  "duration":  48,
   "tags":  {
     "match":  "PASSTHROUGH",
-    "msgNum":  "4",
+    "msgNum":  "8",
     "proxyLocation":  "out",
     "proxyVersion":  "v2.3.321",
     "refUuid":  "undefined",
-    "sequence":  "4",
+    "sequence":  "8",
     "source":  "responder"
   },
-  "uuid":  "8FaGFp/IRLuiTgBcK3hmlw==",
+  "uuid":  "XdvI8skPR+eZVossQe6KvQ==",
   "direction":  "OUT",
   "cluster":  "undefined",
   "namespace":  "undefined",
   "service":  "undefined",
   "network_address":  "api.spacexdata.com:443",
   "command":  "GET",
-  "location":  "/v4/launches/latest",
+  "location":  "/v4/rockets/5e9d0d96eda699382d09d1ee",
   "status":  "200",
   "http":  {
     "req":  {
-      "url":  "/v4/launches/latest",
-      "uri":  "/v4/launches/latest",
+      "url":  "/v4/rockets/5e9d0d96eda699382d09d1ee",
+      "uri":  "/v4/rockets/5e9d0d96eda699382d09d1ee",
       "version":  "2.0",
       "method":  "GET",
       "host":  "api.spacexdata.com",
@@ -56,19 +56,19 @@
           "h3=\":443\"; ma=86400"
         ],
         "Cache-Control":  [
-          "max-age=20"
+          "max-age=86400"
         ],
         "Cf-Cache-Status":  [
           "DYNAMIC"
         ],
         "Cf-Ray":  [
-          "925deb78ce25c016-ATL"
+          "925e0af5aaac06f2-ATL"
         ],
         "Content-Encoding":  [
           "gzip"
         ],
         "Content-Length":  [
-          "768"
+          "962"
         ],
         "Content-Security-Policy":  [
           "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
@@ -77,10 +77,10 @@
           "application/json; charset=utf-8"
         ],
         "Date":  [
-          "Tue, 25 Mar 2025 11:03:06 GMT"
+          "Tue, 25 Mar 2025 11:24:36 GMT"
         ],
         "Etag":  [
-          "\"593-+Fiu3XKvmfUy10xCx7PQ7s+kCOI\""
+          "\"7ca-ZeP0dB7QTvu7divOOR2cLFZvKaw\""
         ],
         "Expect-Ct":  [
           "max-age=0"
@@ -92,13 +92,13 @@
           "no-referrer"
         ],
         "Report-To":  [
-          "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=PfqHDmAHuRQ8p2GgncDj3bqPSBiyBKWiZJ8y5JmUus9xwfS0vErl3SuH%2BeBTzI771QkyjqEKQX%2FKohPUKKlBR1O5xR%2Fp6N%2BruCdthhXmO098N%2B79o%2Fqmvgn17vxI15UxU%2BbwXU0%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+          "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=q9Oa4i%2FRvOMj5FlGhxmnEoteznj6WS1r5hNCeQlBhV3WAI1JMURIFQmd%2BrGXE5voU101lCnwD3G5wjLafND1rxySHA114v2HRbhErucn5McD6jhevSMSuKBkBp3vMhgpcuiV5Sg%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
         ],
         "Server":  [
           "cloudflare"
         ],
         "Server-Timing":  [
-          "cfL4;desc=\"?proto=TCP&rtt=18382&min_rtt=7033&rtt_var=9878&sent=9&recv=11&lost=0&retrans=0&sent_bytes=4306&recv_bytes=1800&delivery_rate=364965&cwnd=223&unsent_bytes=0&cid=0d5fe91db3750c68&ts=57&x=0\""
+          "cfL4;desc=\"?proto=TCP&rtt=11378&min_rtt=8636&rtt_var=3818&sent=16&recv=19&lost=0&retrans=0&sent_bytes=9241&recv_bytes=1972&delivery_rate=442002&cwnd=246&unsent_bytes=0&cid=827aa94f8153161a&ts=9417&x=0\""
         ],
         "Spacex-Api-Cache":  [
           "HIT"
@@ -107,7 +107,7 @@
           "true"
         ],
         "Spacex-Api-Response-Time":  [
-          "0ms"
+          "1ms"
         ],
         "Strict-Transport-Security":  [
           "max-age=15552000; includeSubDomains"
@@ -135,14 +135,14 @@
           "0"
         ]
       },
-      "bodyBase64":  "H4sIAAAJbogA/3xUTY+kNhD9L3WmG/Nhg7mtsnvLbaMku6sRMnbBOA02ss0yrdH898jQzc50pNzsevXxXPXKr9AL7bQZPDRmGccERm0uHppXmEWQz/HgJzGO0MBzCLNv0lRPYkCfn/U0dPblLO2UYpeqOv2cfbuuM1lbe57NAAmMwg34/5FFkeaYXtifX0r9bbxFviXgUCkdYnkpplnowRwExWIisSPruq7n3X3j4lI/C4kvqbTThCb49OXnVLF/UrfbW+lwpe2eRlrhQ6usvGgztEp7uXivrWmFUSkkMKHS4l7ZobQ/0V33+1sC/ajlxb3r0Y+nBKzTgzZiu70lMDv0/hKfsvd3xU4KH97xv9olLOcOU/pl/av+fvnkfi8hgc3cYasVNPAREi5oOeKRUl/0vBM9kqI5H+azdUMab+nX2IG/298crica2+yDCFq2vXbYKhGwXYK8p/0vZvTLHTQYoOnF6DHWN8qud8RZeYkgUOSKKE5RCcZ5VYiacJWhhAT8IiV6D01wCyZRg+Pi0MeWJaAwCD0egozjguYHsFypKuMsJ3lBWE4pyUuVFTHdDkn+AKk7lGfkAcIDosUD1MNTAv5Zzzc6Usx+GTdywLJKEkp51gmVS8YywTDnhMeQWVxHK5Q/uBaoPqYuafTbhTeLbazIsaQk7ynhhJdZXVPG+rqGTVvDc2jNMnXooMnqKgEjprhOt/El8GtikJM8P2XkROgfGWsIaQg5E0K+H17b7DLGSl5TRsjNPFoZlfohPN/DT6RsCLnHzw6ljpsRhWsXBwkss7STNsOhA2n3Gb5uJ2iAFYXiSrCCiipTmeKSsYpX3fE8aLIEBqdVr82hhhGH4+xw8aiOCqMwKi6qCAGnORwRN/ODrO7mcJ0jm09fP3/dPiWjfnW/IEVR1AXKruNIixIrKeHtKQGxBNsuc3z8vUzo3jOJv1A76s4Jd92XtC8KRVHiCeucnkqp6lNNeH/KVCmrXORIVAEJbL6b+IiiD+Lj8PbvADJgtsOTBQAA"
+      "bodyBase64":  "H4sIAAAJbogA/5xU3Y7bNhN9FWKuEkCxKcmSLV1/X9GLpgW6LVAgCIgxNZLZpUiVpOwYCwN9iD5hn6SgLHm92fT3yhZ5ZnjmnJl5ggOp7hCgfoKeAjkPdZruEmiJAtT5bntJoFE43d2DqhuEXxLo0ft4+9hBneZ5wTlPQO+hzqpNznmEtMr5IHzAjiIyHNwYvwmFpiPpePb4LdRptpuDW6iz3XZbFJvNJVnwR5Tj2N/A+R04T3mWl3kEOxo97jVBHdxICZDplCEPdb5NoB1JC+ztaIII1sTTPL64H50RQfUkPEmozaj1JQFP0prmc943AlWxnbluNvxa6IBnbbGZ9JC2H6xXgUSLyinTxcPXise3Fj3nd7+k+SvYJQE7BGWNSKGGhwEl+YMa4K8kKL+kQJr9uQI38Z5A+SHSvjMtz3kCiyn5jj879drZ7W7xdZLqDvuZq1V5Ay6imrHfRzGigeE8ENTgcAjWQQJHcl5ZAzVAAhrPdpxlXKoW2novevy0HA/ODqQ1mjAJp9Uvo2qY/XTuyMCL6+z5uqdwQENwYx2sOM1WpjzOiUbTKNMJTd0k10K6jAMSyCnUUIMPqIwm75kPRDqaNbfMnM5D/eEJVBOfJgsJGOxjwd/YE/s/unBg37m9CpBcxy0O2zxtsZGjXHN0j84/h79H519G8ufILHsZaa25i7TW/F3kxwRareSjE6rHLjbaBziEMPh6vdbqSCsfMCh5xayk7ddlUeTFerOrik2a76oyE0TFJqVyWxRiv/p56CD5xynyalNWaSqo5LLYS1nIf51iYpFlopKbLN3mLd/9FxZbzkuRp3nLU5JVPqf4eNPyIaCbZvS5j618pOgmyqCOBHWL2lMS+2TSMUtgb62/bgqegLQ+iIGc0DgaeYB6y2c7/CgleS8cBhKDDBP8undbHTsLash4lr5Ls3c8hZhqNMGdoYYfjQrUsIeAgWLPxMWF5rxslZ8ggZN6VAM1CqG+CUJmdTteWdet49f6GiLuSm3IS6emVRVTzhcMTcMexoEc+5rweGbfT1IwR4MjTyYwZO2o9ZktC50Fh8YP1sVOsIb5sw/Us4a86gw1LFjmyR2VJIZaz9Ni47QwQ9R4hp6dSOv4Gw7Eps6OLN6j8yv2w0F5Fk723aQ9O9JBSU3s919/Y1EQ66lhtp0i72lfHWRvZpveThlvRb6Jpb6dkpyU1oyOZMKI17IGjZLYV6ilNaxKln/XvDHN/xx21qwguY50QVXDm6qkBsuqyndZw6smJYLLHwMAKpBE1MoHAAA="
     }
   },
   "signature":  {
     "http:host":  "YXBpLnNwYWNleGRhdGEuY29t",
     "http:method":  "R0VU",
     "http:queryparams":  "",
-    "http:url":  "L3Y0L2xhdW5jaGVzL2xhdGVzdA==",
+    "http:url":  "L3Y0L3JvY2tldHMvNWU5ZDBkOTZlZGE2OTkzODJkMDlkMWVl",
     "instance":  "MA=="
   },
   "netinfo":  {
