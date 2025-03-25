@@ -27,16 +27,16 @@ proxymock init --api-key "$PROXYMOCK_API_KEY"
 proxymock version || { echo "Proxymock installation failed"; exit 1; }
 
 # Import the snapshot
-echo "Analyzing snapshot..."
-SNAPSHOT_ID=$(proxymock analyze | grep "snapshotId:" | head -n 1 | sed 's/.*snapshotId:\([^ ]*\).*/\1/')
-if [[ -z "$SNAPSHOT_ID" ]]; then
-  echo "Error: Could not extract snapshot ID from proxymock analyze output!"
-  exit 1
-fi
-echo "Using snapshot: $SNAPSHOT_ID"
+# echo "Analyzing snapshot..."
+# SNAPSHOT_ID=$(proxymock analyze | grep "snapshotId:" | head -n 1 | sed 's/.*snapshotId:\([^ ]*\).*/\1/')
+# if [[ -z "$SNAPSHOT_ID" ]]; then
+#   echo "Error: Could not extract snapshot ID from proxymock analyze output!"
+#   exit 1
+# fi
+# echo "Using snapshot: $SNAPSHOT_ID"
 
 # Start proxymock in the background
-nohup proxymock run --service "http=18080" --service "https=18443" --snapshot "$SNAPSHOT_ID" > proxymock.log 2>&1 &
+nohup proxymock run --service "http=18080" --service "https=18443" --dir ./proxymock > proxymock.log 2>&1 &
 # Wait briefly to ensure proxymock starts
 sleep 5
 
