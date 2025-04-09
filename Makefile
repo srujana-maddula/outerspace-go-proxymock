@@ -1,4 +1,4 @@
-.PHONY: test test-with-proxymock coverage coverage-html clean proxymock-setup proxymock-run proxymock-stop
+.PHONY: test test-with-proxymock coverage coverage-html clean proxymock-setup proxymock-mock proxymock-stop
 
 test:
 	go test -v ./...
@@ -31,17 +31,17 @@ proxymock-setup:
 	proxymock init --api-key "$$PROXYMOCK_API_KEY"
 	@echo "Proxymock setup completed successfully."
 
-proxymock-run:
+proxymock-mock:
 	export PATH="$$HOME/.speedscale:$$PATH" && \
-	nohup proxymock run --service "http=18080" --service "https=18443" --dir ./proxymock > proxymock.log 2>&1 & \
+	nohup proxymock mock --service "http=18080" --service "https=18443" --dir ./proxymock > proxymock.log 2>&1 & \
 	sleep 5
-	@if ! pgrep -f "proxymock run" > /dev/null; then \
-		echo "Error: Proxymock is NOT running!"; \
+	@if ! pgrep -f "proxymock mock" > /dev/null; then \
+		echo "Error: Proxymock is NOT mocking!"; \
 		cat proxymock.log; \
 		exit 1; \
 	fi
 	@echo "Proxymock started successfully."
 
 proxymock-stop:
-	pkill -f "proxymock run" || true
+	pkill -f "proxymock" || true
 	@echo "Proxymock stopped." 
