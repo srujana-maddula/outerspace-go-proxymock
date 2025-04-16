@@ -14,8 +14,14 @@ func main() {
 	// Get server address from environment variable or use default
 	serverAddr := os.Getenv("GRPC_SERVER_ADDR")
 	if serverAddr == "" {
-		serverAddr = "mattintosh.local:50053"
+		host, err := os.Hostname()
+		if err != nil {
+			// grpc will not use a proxy on localhost so we want to use a real hostname
+			host = "127.0.0.1"
+		}
+		serverAddr = host + ":50053"
 	}
+	fmt.Println("Connecting to", serverAddr)
 
 	// Create a new client
 	client, err := grpc.NewClient(serverAddr)
