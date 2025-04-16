@@ -84,7 +84,7 @@ type RRPair struct {
 
 func (suite *APITestSuite) TestRecordedAPIs() {
 	// Check if the directory exists
-	rrpairsDir := "../proxymock/localhost"
+	rrpairsDir := "../proxymock/recording/localhost"
 	_, err := os.Stat(rrpairsDir)
 	if os.IsNotExist(err) {
 		suite.T().Fatalf("Directory %s does not exist", rrpairsDir)
