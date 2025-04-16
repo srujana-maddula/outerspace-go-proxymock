@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package space;
+
+option go_package = "outerspace-go/lib/grpc";
+
+// Launch service definition
+service LaunchService {
+  // Get the latest launch
+  rpc GetLatestLaunch (LatestLaunchRequest) returns (Launch) {}
+  // Get a specific rocket by ID
+  rpc GetRocket (GetRocketRequest) returns (Rocket) {}
+  // Get all rockets
+  rpc GetRockets (GetRocketsRequest) returns (GetRocketsResponse) {}
+  // Get a random math fact
+  rpc GetMathFact (GetMathFactRequest) returns (MathFact) {}
+}
+
+// Request message for getting the latest launch
+message LatestLaunchRequest {}
+
+// Request message for getting a specific rocket
+message GetRocketRequest {
+  string id = 1;
+}
+
+// Request message for getting all rockets
+message GetRocketsRequest {}
+
+// Response message for getting all rockets
+message GetRocketsResponse {
+  repeated RocketSummary rockets = 1;
+}
+
+// Request message for getting a math fact
+message GetMathFactRequest {}
+
+// Response message containing launch details
+message Launch {
+  int32 flight_number = 1;
+  string mission_name = 2;
+  string date_utc = 3;
+  bool success = 4;
+  string details = 5;
+}
+
+// Response message containing rocket details
+message Rocket {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double height_meters = 4;
+  int32 mass_kg = 5;
+}
+
+// Simplified rocket information
+message RocketSummary {
+  string id = 1;
+  string name = 2;
+}
+
+// Response message containing math fact
+message MathFact {
+  string text = 1;
+  int32 number = 2;
+  bool found = 3;
+  string type = 4;
+} 
