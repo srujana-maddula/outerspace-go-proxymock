@@ -2,6 +2,7 @@
 
 ### List available API calls
 GET http://{{host}}/
+host: localhost:8080
 
 ### Random math fact
 GET http://{{host}}/api/numbers
