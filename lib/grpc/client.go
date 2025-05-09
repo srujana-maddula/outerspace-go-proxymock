@@ -16,7 +16,7 @@ type Client struct {
 
 // NewClient creates a new gRPC client
 func NewClient(serverAddr string) (*Client, error) {
-	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
