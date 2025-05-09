@@ -1,6 +1,6 @@
 # Demo App: outerspace-go
 
-This is a demo app that uses the SpaceX API to fetch data about SpaceX launches, rockets, and capsules. It also talks to a numbers API that consistently generates random results.
+Outerspace is a demo app that uses the SpaceX API to fetch data about SpaceX launches, rockets, and capsules. It also talks to a numbers API that consistently generates random results.
 
 ![outerspace-go](/img/outerspace-go.png)
 
@@ -13,6 +13,34 @@ This will run a server on port `:8080` with the API endpoints.
 go run main.go
 ```
 
+Once the app is running you can make API requests.
+
+The simplest way to make a bunch of requests is to run the build in client
+script.
+```
+cd cmd/client
+go run .
+```
+
+But you can also make requests directly.
+
+```
+curl localhost:8080/api/latest-launch
+```
+
+Request with no path to see the full list of API endpoints:
+```
+curl localhost:8080/ | jq
+{
+  "/": "Shows this list of available endpoints",
+  "/api/latest-launch": "Get the latest SpaceX launch",
+  "/api/numbers": "Get a random math fact",
+  "/api/rocket": "Get a specific rocket by ID (use ?id=[rocket_id])",
+  "/api/rockets": "Get a list of all SpaceX rockets"
+}
+
+```
+
 ## How to run the tests locally
 
 There is a test file under `lib/api_testify_test.go` that loops through a set of API calls that were recorded using `proxymock` and replays each one. It then compares the response of each one to what was previously recorded. You can run it like so:
@@ -20,30 +48,32 @@ There is a test file under `lib/api_testify_test.go` that loops through a set of
 go test -v ./...
 ```
 
-## How to build the go binary locally
+# proxymock
 
-This will build the app and create the binary.
-```
-go build
-```
+For apps that make lots of API calls, [proxymock](https://proxymock.io/) can be used to record, mock, and replay those downstream calls.
 
-# Working with proxymock
-
-For apps that make lots of API calls, [proxymock](https://proxymock.io/) can be used to capture and replay those downstream calls.
-
-## Capture with proxymock
+## Record with proxymock
 
 All you have to do is set the following environment variables before you run the go code:
 ```
 export http_proxy=http://localhost:4140
 export https_proxy=http://localhost:4140
+export grpc_proxy=http://$(hostname):4140
 go run main.go
 ```
 
-Then in another window run `proxymock run` which will start to capture data:
+Then in a new terminal window run `proxymock run` to start recording:
 ```
 proxymock run
 ```
+
+Now, in yet another new terminal window, run the script to make requests to the server:
+```
+cd cmd/client
+go run .
+```
+
+Note that this will only record requests made from the API server to the external APIs.  To record the requests from the client you will need to export the same proxy environment variables in that terminal.
 
 For examples of the kind of data collected, check the `.speedscale` directory of the repository.
 
