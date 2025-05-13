@@ -33,7 +33,7 @@ proxymock-setup:
 
 proxymock-mock:
 	export PATH="$$HOME/.speedscale:$$PATH" && \
-	nohup proxymock mock --service "http=18080" --service "https=18443" --in ./proxymock/recording > proxymock.log 2>&1 & \
+	nohup proxymock mock --service "http=18080" --service "https=18443" --in ./proxymock/recorded-2025-05-01_15-46-14.560193Z > proxymock.log 2>&1 & \
 	sleep 5
 	@if ! pgrep -f "proxymock mock" > /dev/null; then \
 		echo "Error: Proxymock is NOT mocking!"; \
