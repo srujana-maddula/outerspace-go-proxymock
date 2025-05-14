@@ -1,43 +1,72 @@
-.PHONY: test test-with-proxymock coverage coverage-html clean proxymock-setup proxymock-mock proxymock-stop
+.PHONY: test test-with-proxymock coverage coverage-html clean proxymock-setup proxymock-mock proxymock-stop run build integration-test load-test
+
+# Define proxymock environment variables
+PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
+                https_proxy=socks5h://localhost:4140 \
+                SSL_CERT_FILE=~/.speedscale/certs/tls.crt
+
+# Find first recording directory
+PROXYMOCK_RECORDING := $(shell find ./proxymock -name "recorded-*" -type d | head -n 1)
 
 test:
-	go test -v ./...
-
-test-with-proxymock:
-	export http_proxy=socks5h://localhost:4140 && \
-	export https_proxy=socks5h://localhost:4140 && \
-	export SSL_CERT_FILE=~/.speedscale/certs/tls.crt && \
-	go test -v ./...
-
-coverage:
 	go test -v -coverprofile=coverage.out ./...
 	go tool cover -func=coverage.out
 
-coverage-html: coverage
-	go tool cover -html=coverage.out -o coverage.html
+build:
+	go build -o outerspace-go main.go
+
+run:
+	go run main.go
 
 clean:
-	rm -f coverage.out coverage.html
-	rm -rf .speedscale/proxymock
+	rm -f coverage.out coverage.html outerspace-go
+	rm -rf logs
+	rm -rf proxymock/mocked-* proxymock/replayed-*
 
-proxymock-setup:
-	mkdir -p .speedscale
-	sh -c "$$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
-	@if [ -z "$$PROXYMOCK_API_KEY" ]; then \
-		echo "Error: PROXYMOCK_API_KEY is not set."; \
-		exit 1; \
-	fi
+integration-test: build proxymock-mock
+	@mkdir -p logs
+	@echo "Starting outerspace-go in background with proxymock..."
+	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
+	@echo "Waiting for outerspace-go to start..."
+	@sleep 2
+	@echo "Running integration tests with proxymock..."
+	$(MAKE) proxymock-test > logs/proxymock-test.log 2>&1
+	@echo "Cleaning up..."
+	@kill $$(cat logs/outerspace.pid) || true
+	@rm logs/outerspace.pid
+	$(MAKE) proxymock-stop
+	@echo "Integration tests completed. See logs in the logs directory."
+
+load-test: build proxymock-mock
+	@mkdir -p logs
+	@echo "Starting outerspace-go in background with proxymock..."
+	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
+	@echo "Waiting for outerspace-go to start..."
+	@sleep 2
+	@echo "Running load tests with proxymock..."
+	$(MAKE) proxymock-load-test > logs/proxymock-load.log 2>&1
+	@echo "Cleaning up..."
+	@kill $$(cat logs/outerspace.pid) || true
+	@rm logs/outerspace.pid
+	$(MAKE) proxymock-stop
+	@echo "Load tests completed. See logs in the logs directory."
+
+proxymock-test:
 	export PATH="$$HOME/.speedscale:$$PATH" && \
-	proxymock init --api-key "$$PROXYMOCK_API_KEY"
-	@echo "Proxymock setup completed successfully."
+	proxymock replay --in $(PROXYMOCK_RECORDING) --fail-if requests.response-pct!=100
+
+proxymock-load-test:
+	export PATH="$$HOME/.speedscale:$$PATH" && \
+	proxymock replay --in $(PROXYMOCK_RECORDING) --vus 10 --for 1m --fail-if "latency.p95 > 200"
 
 proxymock-mock:
+	@mkdir -p logs
 	export PATH="$$HOME/.speedscale:$$PATH" && \
-	nohup proxymock mock --service "http=18080" --service "https=18443" --in ./proxymock/recorded-2025-05-01_15-46-14.560193Z > proxymock.log 2>&1 & \
-	sleep 5
+	nohup proxymock mock --in $(PROXYMOCK_RECORDING) > logs/proxymock-mock.log 2>&1 & \
+	sleep 2
 	@if ! pgrep -f "proxymock mock" > /dev/null; then \
 		echo "Error: Proxymock is NOT mocking!"; \
-		cat proxymock.log; \
+		cat logs/proxymock-mock.log; \
 		exit 1; \
 	fi
 	@echo "Proxymock started successfully."
@@ -45,3 +74,15 @@ proxymock-mock:
 proxymock-stop:
 	pkill -f "proxymock" || true
 	@echo "Proxymock stopped." 
+
+proxymock-setup:
+	@mkdir -p logs
+	mkdir -p .speedscale
+	sh -c "$$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)" > logs/proxymock-setup.log 2>&1
+	@if [ -z "$$PROXYMOCK_API_KEY" ]; then \
+		echo "Error: PROXYMOCK_API_KEY is not set."; \
+		exit 1; \
+	fi
+	export PATH="$$HOME/.speedscale:$$PATH" && \
+	proxymock init --api-key "$$PROXYMOCK_API_KEY" >> logs/proxymock-setup.log 2>&1
+	@echo "Proxymock setup completed successfully."

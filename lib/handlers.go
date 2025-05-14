@@ -26,7 +26,7 @@ func LoggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func HandleLatestLaunch(client *SpaceXClient) http.HandlerFunc {
+func HandleLatestLaunch(client SpaceXClientInterface) http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		launch, err := client.GetLatestLaunch()
 		if err != nil {
@@ -39,7 +39,7 @@ func HandleLatestLaunch(client *SpaceXClient) http.HandlerFunc {
 	})
 }
 
-func HandleRocket(client *SpaceXClient) http.HandlerFunc {
+func HandleRocket(client SpaceXClientInterface) http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		rocketID := r.URL.Query().Get("id")
 		if rocketID == "" {
@@ -58,7 +58,7 @@ func HandleRocket(client *SpaceXClient) http.HandlerFunc {
 	})
 }
 
-func HandleListRockets(client *SpaceXClient) http.HandlerFunc {
+func HandleListRockets(client SpaceXClientInterface) http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		rockets, err := client.GetAllRockets()
 		if err != nil {
@@ -71,7 +71,7 @@ func HandleListRockets(client *SpaceXClient) http.HandlerFunc {
 	})
 }
 
-func HandleNumbers(client *NumbersClient) http.HandlerFunc {
+func HandleNumbers(client NumbersClientInterface) http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		mathFact, err := client.GetMathFact()
 		if err != nil {

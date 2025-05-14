@@ -83,8 +83,13 @@ type RRPair struct {
 }
 
 func (suite *APITestSuite) TestRecordedAPIs() {
+	// Skip this test if proxymock environment variables are not set
+	if os.Getenv("http_proxy") == "" || os.Getenv("https_proxy") == "" {
+		suite.T().Skip("Skipping test because proxymock is not running")
+	}
+
 	// Check if the directory exists
-	rrpairsDir := "../proxymock/recording/localhost"
+	rrpairsDir := "../proxymock/recorded-2025-05-01_15-46-14.560193Z/localhost"
 	_, err := os.Stat(rrpairsDir)
 	if os.IsNotExist(err) {
 		suite.T().Fatalf("Directory %s does not exist", rrpairsDir)
