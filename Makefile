@@ -1,4 +1,4 @@
-.PHONY: test test-with-proxymock coverage coverage-html clean proxymock-setup proxymock-mock proxymock-stop run build integration-test load-test
+.PHONY: test coverage coverage-html clean proxymock-setup proxymock-mock run build integration-test load-test
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -24,40 +24,30 @@ clean:
 	rm -rf proxymock/mocked-* proxymock/replayed-*
 
 integration-test: build proxymock-mock
-	@mkdir -p logs
-	@echo "Starting outerspace-go in background with proxymock..."
+	mkdir -p logs
+	echo "Starting outerspace-go in background with proxymock..."
 	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
-	@echo "Waiting for outerspace-go to start..."
-	@sleep 2
-	@echo "Running integration tests with proxymock..."
-	$(MAKE) proxymock-test > logs/proxymock-test.log 2>&1
-	@echo "Cleaning up..."
-	@kill $$(cat logs/outerspace.pid) || true
-	@rm logs/outerspace.pid
-	$(MAKE) proxymock-stop
-	@echo "Integration tests completed. See logs in the logs directory."
+	echo "Waiting for outerspace-go to start..."
+	sleep 2
+	echo "Running integration tests with proxymock..."
+	proxymock replay --in $(PROXYMOCK_RECORDING) --fail-if requests.response-pct!=100
+	echo "Cleaning up..."
+	pkill -f "outerspace-go" || true
+	pkill -f "proxymock" || true
+	echo "Integration tests completed. See logs in the logs directory."
 
 load-test: build proxymock-mock
-	@mkdir -p logs
-	@echo "Starting outerspace-go in background with proxymock..."
+	mkdir -p logs
+	echo "Starting outerspace-go in background with proxymock..."
 	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
-	@echo "Waiting for outerspace-go to start..."
-	@sleep 2
-	@echo "Running load tests with proxymock..."
-	$(MAKE) proxymock-load-test > logs/proxymock-load.log 2>&1
-	@echo "Cleaning up..."
-	@kill $$(cat logs/outerspace.pid) || true
-	@rm logs/outerspace.pid
-	$(MAKE) proxymock-stop
-	@echo "Load tests completed. See logs in the logs directory."
-
-proxymock-test:
-	export PATH="$$HOME/.speedscale:$$PATH" && \
-	proxymock replay --in $(PROXYMOCK_RECORDING) --fail-if requests.response-pct!=100
-
-proxymock-load-test:
-	export PATH="$$HOME/.speedscale:$$PATH" && \
+	echo "Waiting for outerspace-go to start..."
+	sleep 2
+	echo "Running load tests with proxymock..."
 	proxymock replay --in $(PROXYMOCK_RECORDING) --vus 10 --for 1m --fail-if "latency.p95 > 200"
+	echo "Cleaning up..."
+	pkill -f "outerspace-go" || true
+	pkill -f "proxymock" || true
+	echo "Load tests completed. See logs in the logs directory."
 
 proxymock-mock:
 	@mkdir -p logs
@@ -70,10 +60,6 @@ proxymock-mock:
 		exit 1; \
 	fi
 	@echo "Proxymock started successfully."
-
-proxymock-stop:
-	pkill -f "proxymock" || true
-	@echo "Proxymock stopped." 
 
 proxymock-setup:
 	@mkdir -p logs
