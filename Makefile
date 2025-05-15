@@ -64,8 +64,8 @@ proxymock-mock:
 	@echo "Proxymock started successfully."
 
 proxymock-setup:
-	export PATH="$$HOME/.speedscale:$$PATH"
 	mkdir -p .speedscale
+	export PATH="$$HOME/.speedscale:$$PATH"
 	sh -c "$$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)"
 	@if [ -z "$$PROXYMOCK_API_KEY" ]; then \
 		echo "Error: PROXYMOCK_API_KEY is not set."; \
