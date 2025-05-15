@@ -32,10 +32,8 @@ jobs:
       env:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: make proxymock-setup
-    - name: Run proxymock as mock server
-      run: make proxymock-mock
-    - name: Run tests with mock server
-      run: make test-with-proxymock
+    - name: Run unit tests
+      run: make test
     - name: Run integration tests
       run: make integration-test
     - name: Run load tests
