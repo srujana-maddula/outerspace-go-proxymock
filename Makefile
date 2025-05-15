@@ -24,6 +24,7 @@ clean:
 	rm -rf proxymock/mocked-* proxymock/replayed-*
 
 integration-test: build proxymock-mock
+	export PATH="$$HOME/.speedscale:$$PATH"
 	mkdir -p logs
 	echo "Starting outerspace-go in background with proxymock..."
 	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
@@ -37,6 +38,7 @@ integration-test: build proxymock-mock
 	echo "Integration tests completed. See logs in the logs directory."
 
 load-test: build proxymock-mock
+	export PATH="$$HOME/.speedscale:$$PATH"
 	mkdir -p logs
 	echo "Starting outerspace-go in background with proxymock..."
 	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & echo $$! > logs/outerspace.pid
@@ -50,8 +52,8 @@ load-test: build proxymock-mock
 	echo "Load tests completed. See logs in the logs directory."
 
 proxymock-mock:
-	@mkdir -p logs
-	export PATH="$$HOME/.speedscale:$$PATH" && \
+	export PATH="$$HOME/.speedscale:$$PATH"
+	mkdir -p logs
 	nohup proxymock mock --in $(PROXYMOCK_RECORDING) > logs/proxymock-mock.log 2>&1 & \
 	sleep 2
 	@if ! pgrep -f "proxymock mock" > /dev/null; then \
@@ -62,13 +64,12 @@ proxymock-mock:
 	@echo "Proxymock started successfully."
 
 proxymock-setup:
-	@mkdir -p logs
 	mkdir -p .speedscale
+	export PATH="$$HOME/.speedscale:$$PATH"
 	sh -c "$$(curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock)" > logs/proxymock-setup.log 2>&1
 	@if [ -z "$$PROXYMOCK_API_KEY" ]; then \
 		echo "Error: PROXYMOCK_API_KEY is not set."; \
 		exit 1; \
 	fi
-	export PATH="$$HOME/.speedscale:$$PATH" && \
-	proxymock init --api-key "$$PROXYMOCK_API_KEY" >> logs/proxymock-setup.log 2>&1
+	proxymock init --api-key "$$PROXYMOCK_API_KEY"
 	@echo "Proxymock setup completed successfully."
