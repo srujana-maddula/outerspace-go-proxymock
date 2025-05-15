@@ -32,8 +32,8 @@ integration-test: build proxymock-mock
 	echo "Running integration tests with proxymock..."
 	proxymock replay --in $(PROXYMOCK_RECORDING) --fail-if requests.response-pct!=100
 	echo "Cleaning up..."
-	pkill -f "outerspace-go" || true
-	pkill -f "proxymock" || true
+	-pkill -f "outerspace-go" || true
+	-pkill -f "proxymock" || true
 	echo "Integration tests completed. See logs in the logs directory."
 
 load-test: build proxymock-mock
@@ -45,8 +45,8 @@ load-test: build proxymock-mock
 	echo "Running load tests with proxymock..."
 	proxymock replay --in $(PROXYMOCK_RECORDING) --vus 10 --for 1m --fail-if "latency.p95 > 200"
 	echo "Cleaning up..."
-	pkill -f "outerspace-go" || true
-	pkill -f "proxymock" || true
+	-pkill -f "outerspace-go" || true
+	-pkill -f "proxymock" || true
 	echo "Load tests completed. See logs in the logs directory."
 
 proxymock-mock:
