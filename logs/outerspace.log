@@ -1,0 +1,32 @@
+2025/07/14 18:15:54 Starting HTTP server on :8080
+2025/07/14 18:15:54 Starting gRPC server on :50053
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mInbound[0m [36mlatency=[0m0.060291 [36mmethod=[0mGET [36mpath=[0m/ [36mquery=[0m
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Numbers-Api-Type [36mvalues=[0m["math"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Powered-By [36mvalues=[0m["Express"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Numbers-Api-Number [36mvalues=[0m["6434"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mOutbound[0m [36mhost=[0mnumbersapi.com [36mlatency=[0m77.334833 [36mmethod=[0mGET [36mstatus=[0m200
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mInbound[0m [36mlatency=[0m77.553167 [36mmethod=[0mGET [36mpath=[0m/api/numbers [36mquery=[0m
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Dns-Prefetch-Control [36mvalues=[0m["off"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Content-Type-Options [36mvalues=[0m["nosniff"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Frame-Options [36mvalues=[0m["SAMEORIGIN"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Xss-Protection [36mvalues=[0m["0"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Download-Options [36mvalues=[0m["noopen"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Permitted-Cross-Domain-Policies [36mvalues=[0m["none"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mAPI request completed[0m [36mhost=[0mapi.spacexdata.com [36mlatency=[0m171.3 [36mmethod=[0mGET [36mstatus=[0m200
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mInbound[0m [36mlatency=[0m171.719334 [36mmethod=[0mGET [36mpath=[0m/api/latest-launch [36mquery=[0m
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Download-Options [36mvalues=[0m["noopen"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Permitted-Cross-Domain-Policies [36mvalues=[0m["none"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Dns-Prefetch-Control [36mvalues=[0m["off"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Content-Type-Options [36mvalues=[0m["nosniff"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Frame-Options [36mvalues=[0m["SAMEORIGIN"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Xss-Protection [36mvalues=[0m["0"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mAPI request completed[0m [36mhost=[0mapi.spacexdata.com [36mlatency=[0m40.00225 [36mmethod=[0mGET [36mstatus=[0m200
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mInbound[0m [36mlatency=[0m40.581666 [36mmethod=[0mGET [36mpath=[0m/api/rockets [36mquery=[0m
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Dns-Prefetch-Control [36mvalues=[0m["off"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Permitted-Cross-Domain-Policies [36mvalues=[0m["none"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Download-Options [36mvalues=[0m["noopen"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Xss-Protection [36mvalues=[0m["0"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Content-Type-Options [36mvalues=[0m["nosniff"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mX-Header found[0m [36mheader=[0mX-Frame-Options [36mvalues=[0m["SAMEORIGIN"]
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mAPI request completed[0m [36mhost=[0mapi.spacexdata.com [36mlatency=[0m39.707 [36mmethod=[0mGET [36mstatus=[0m200
+[90m2025-07-14T18:15:56-04:00[0m [32mINF[0m [1mInbound[0m [36mlatency=[0m40.01975 [36mmethod=[0mGET [36mpath=[0m/api/rocket [36mquery=[0mid=5e9d0d96eda699382d09d1ee

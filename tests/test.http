@@ -2,20 +2,15 @@
 
 ### List available API calls
 GET http://{{host}}/
-host: localhost:8080
 
 ### Random math fact
 GET http://{{host}}/api/numbers
-host: localhost:8080
 
 ### Details of latest rocket launch
 GET http://{{host}}/api/latest-launch
-host: localhost:8080
 
 ### List of rockets
 GET http://{{host}}/api/rockets
-host: localhost:8080
 
 ### Details of specific rocket
 GET http://{{host}}/api/rocket?id=5e9d0d96eda699382d09d1ee
-host: localhost:8080
