@@ -1,4 +1,4 @@
-.PHONY: test coverage coverage-html clean proxymock-mock run build integration-test load-test
+.PHONY: test coverage coverage-html clean proxymock-mock run build integration-test load-test http-test http-test-recording
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -48,6 +48,38 @@ load-test: build proxymock-mock
 	-pkill -f "outerspace-go" || true
 	-pkill -f "proxymock" || true
 	echo "Load tests completed. See logs in the logs directory."
+
+http-test: build
+	-pkill -f outerspace-go || true
+	mkdir -p logs
+	echo "Starting outerspace-go in background..."
+	./outerspace-go > logs/outerspace.log 2>&1 & 
+	echo $! > logs/outerspace.pid
+	echo "Waiting for outerspace-go to start..."
+	sleep 2
+	echo "Running http tests from tests/test.http..."
+	./tests/run_http_tests.sh
+	@echo "Cleaning up..."
+	-pkill -f outerspace-go || true
+
+http-test-recording: build
+	-pkill -f outerspace-go || true
+	-pkill -f "proxymock record" || true
+	mkdir -p logs
+	echo "Starting proxymock record in background..."
+	nohup proxymock record > logs/proxymock-record.log 2>&1 & echo $$! > logs/proxymock-record.pid
+	echo "Waiting for proxymock record to start..."
+	sleep 2
+	echo "Starting outerspace-go in background..."
+	$(PROXYMOCK_ENV) ./outerspace-go > logs/outerspace.log 2>&1 & 
+	echo $! > logs/outerspace.pid
+	echo "Waiting for outerspace-go to start..."
+	sleep 2
+	echo "Running http tests from tests/test.http in recording mode..."
+	./tests/run_http_tests.sh --recording
+	@echo "Cleaning up..."
+	-pkill -f outerspace-go || true
+	-pkill -f "proxymock record" || true
 
 proxymock-mock:
 	mkdir -p logs
