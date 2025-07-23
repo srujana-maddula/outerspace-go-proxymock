@@ -23,3 +23,27 @@ go.work.sum
 
 # env file
 .env
+
+# logs directory and files
+logs/
+*.log
+*.pid
+
+# binary
+outerspace-go
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
