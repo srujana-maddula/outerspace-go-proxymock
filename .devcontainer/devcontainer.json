@@ -16,10 +16,13 @@
     "forwardPorts": [
         8080
     ],
+    "remoteEnv": {
+        "PATH": "${containerEnv:PATH}:${containerUserHome}/.speedscale"
+    },
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
     "workspaceFolder": "/workspace",
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "mkdir -p ${containerUserHome}/.speedscale && curl -sL \"https://downloads.speedscale.com/proxymock/proxymock-linux-$(case $(uname -m) in x86_64) echo 'amd64';; arm | arm64 | aarch64) echo 'arm64';; esac)\" -o ${containerUserHome}/.speedscale/proxymock && chmod +x ${containerUserHome}/.speedscale/proxymock && echo 'export PATH=${containerUserHome}/.speedscale:$PATH' >> ${containerUserHome}/.bashrc"
+    "postCreateCommand": "mkdir -p ${containerUserHome}/.speedscale && curl -sL \"https://downloads.speedscale.com/proxymock/proxymock-linux-$(case $(uname -m) in x86_64) echo 'amd64';; arm | arm64 | aarch64) echo 'arm64';; esac)\" -o ${containerUserHome}/.speedscale/proxymock && chmod +x ${containerUserHome}/.speedscale/proxymock"
     // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
     // "remoteUser": "root"
 }
