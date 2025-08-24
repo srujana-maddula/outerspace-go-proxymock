@@ -20,11 +20,12 @@ WORKDIR ${APP_HOME}
 COPY . .
 
 # ------------------------------------------------------------------------------
-# Build
+# Build client
 # ------------------------------------------------------------------------------
 
-RUN CGO_ENABLED=0 go build -a -o /outerspace-go \
-    -ldflags "-s -w -X main.Version=${VERSION} -X main.BuildTime=$(TZ=UTC date +%Y-%m-%dT%H:%M:%S%z)"
+RUN CGO_ENABLED=0 go build -a -o /outerspace-client \
+    -ldflags "-s -w -X main.Version=${VERSION} -X main.BuildTime=$(TZ=UTC date +%Y-%m-%dT%H:%M:%S%z)" \
+    ./cmd/client
 
 ################################################################################
 # RELEASE IMAGE
@@ -53,13 +54,12 @@ WORKDIR ${APP_HOME}
 # Copy built application
 # ------------------------------------------------------------------------------
 
-COPY --from=builder --chown=${APP_USER} /outerspace-go ./outerspace-go
-RUN chmod +x ./outerspace-go
+COPY --from=builder --chown=${APP_USER} /outerspace-client ./outerspace-client
+RUN chmod +x ./outerspace-client
 
 # ------------------------------------------------------------------------------
 # Define user, exposed ports, additional env vars, entrypoint and cmd
 # ------------------------------------------------------------------------------
 
 USER ${APP_USER}
-EXPOSE 8443 8080
-CMD ["/app/outerspace-go"]
+CMD ["/app/outerspace-client"]

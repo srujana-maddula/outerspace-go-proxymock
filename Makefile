@@ -1,4 +1,4 @@
-.PHONY: test coverage coverage-html clean proxymock-mock run build integration-test load-test http-test http-test-recording
+.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -8,18 +8,28 @@ PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
 # Find first recording directory
 PROXYMOCK_RECORDING := $(shell find ./proxymock -name "recorded-*" -type d | head -n 1)
 
+# Version management
+CURRENT_VERSION := $(shell cat VERSION)
+VERSION_PARTS := $(subst ., ,$(subst v,,$(CURRENT_VERSION)))
+MAJOR := $(word 1,$(VERSION_PARTS))
+MINOR := $(word 2,$(VERSION_PARTS))
+PATCH := $(word 3,$(VERSION_PARTS))
+
 test:
 	go test -v -coverprofile=coverage.out ./...
 	go tool cover -func=coverage.out
 
 build:
-	go build -o outerspace-go main.go
+	go build -o outerspace-go -ldflags "-X main.Version=$(CURRENT_VERSION) -X main.BuildTime=$(shell TZ=UTC date +%Y-%m-%dT%H:%M:%S%z)" main.go
+
+build-client:
+	go build -o outerspace-client -ldflags "-X main.Version=$(CURRENT_VERSION) -X main.BuildTime=$(shell TZ=UTC date +%Y-%m-%dT%H:%M:%S%z)" ./cmd/client
 
 run:
 	go run main.go
 
 clean:
-	rm -f coverage.out coverage.html outerspace-go
+	rm -f coverage.out coverage.html outerspace-go outerspace-client
 	rm -rf logs
 	rm -rf proxymock/mocked-* proxymock/replayed-*
 
@@ -91,3 +101,24 @@ proxymock-mock:
 		exit 1; \
 	fi
 	@echo "Proxymock started successfully."
+
+version:
+	@echo "Current version: $(CURRENT_VERSION)"
+
+bump-patch:
+	@echo "v$(MAJOR).$(MINOR).$$(expr $(PATCH) + 1)" > VERSION
+	@echo "Version bumped to: $$(cat VERSION)"
+
+bump-minor:
+	@echo "v$(MAJOR).$$(expr $(MINOR) + 1).0" > VERSION
+	@echo "Version bumped to: $$(cat VERSION)"
+
+bump-major:
+	@echo "v$$(expr $(MAJOR) + 1).0.0" > VERSION
+	@echo "Version bumped to: $$(cat VERSION)"
+
+docker-build:
+	docker build --build-arg VERSION=$(CURRENT_VERSION) -t outerspace-go:$(CURRENT_VERSION) -t outerspace-go:latest .
+
+docker-build-client:
+	docker build --build-arg VERSION=$(CURRENT_VERSION) -f Dockerfile.client -t outerspace-client:$(CURRENT_VERSION) -t outerspace-client:latest .

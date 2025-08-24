@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: outerspace-client
+  labels:
+    app: outerspace-client
+spec:
+  template:
+    metadata:
+      labels:
+        app: outerspace-client
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: outerspace-client
+        image: ghcr.io/speedscale/outerspace-go-client:latest
+        env:
+        - name: GRPC_SERVER_ADDR
+          value: "outerspace-server:50053"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
+  backoffLimit: 4

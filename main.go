@@ -9,9 +9,16 @@ import (
 	"outerspace-go/lib/logger"
 )
 
+var (
+	Version   string = "dev"
+	BuildTime string = "unknown"
+)
+
 func main() {
 	// Initialize logger
 	logger.Init()
+
+	log.Printf("outerspace-go version %s (built at %s)", Version, BuildTime)
 
 	spaceClient := lib.NewSpaceXClient()
 	numbersClient := lib.NewNumbersClient()
