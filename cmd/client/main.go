@@ -10,7 +10,14 @@ import (
 	"outerspace-go/lib/grpc"
 )
 
+var (
+	Version   string = "dev"
+	BuildTime string = "unknown"
+)
+
 func main() {
+	fmt.Printf("outerspace-go client version %s (built at %s)\n", Version, BuildTime)
+	
 	// Get server address from environment variable or use default
 	serverAddr := os.Getenv("GRPC_SERVER_ADDR")
 	if serverAddr == "" {

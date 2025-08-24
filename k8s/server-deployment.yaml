@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outerspace-server
+  labels:
+    app: outerspace-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: outerspace-server
+  template:
+    metadata:
+      labels:
+        app: outerspace-server
+    spec:
+      containers:
+      - name: outerspace-server
+        image: ghcr.io/speedscale/outerspace-go:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 50053
+          name: grpc
+        env:
+        - name: PORT
+          value: "8080"
+        - name: GRPC_PORT
+          value: "50053"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
