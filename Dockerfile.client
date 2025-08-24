@@ -31,14 +31,16 @@ RUN CGO_ENABLED=0 go build -a -o /outerspace-client \
 # RELEASE IMAGE
 ################################################################################
 
-FROM docker.io/bitnami/minideb:buster
+FROM debian:bookworm-slim
 
 # ------------------------------------------------------------------------------
 # Install persistent dependencies
 # ------------------------------------------------------------------------------
 
-ENV PERSISTENT_DEPS="curl ca-certificates"
-RUN install_packages ${PERSISTENT_DEPS}
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------------------------------------------------------
 # Define working directory & user
