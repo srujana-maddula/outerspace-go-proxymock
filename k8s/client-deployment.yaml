@@ -1,22 +1,27 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: outerspace-client
   labels:
     app: outerspace-client
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: outerspace-client
   template:
     metadata:
       labels:
         app: outerspace-client
     spec:
-      restartPolicy: Never
       containers:
       - name: outerspace-client
         image: ghcr.io/speedscale/outerspace-go-client:latest
         env:
         - name: GRPC_SERVER_ADDR
           value: "outerspace-server:50053"
+        - name: POLL_INTERVAL
+          value: "30m"
         resources:
           requests:
             memory: "32Mi"
@@ -24,4 +29,13 @@ spec:
           limits:
             memory: "64Mi"
             cpu: "200m"
-  backoffLimit: 4
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "pgrep -f outerspace-go-client"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3

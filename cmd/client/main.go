@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"outerspace-go/lib/grpc"
@@ -28,12 +29,38 @@ func main() {
 		}
 		serverAddr = host + ":50053"
 	}
-	fmt.Println("Connecting to", serverAddr)
 
+	// Get polling interval from environment variable or use default (30 minutes)
+	intervalStr := os.Getenv("POLL_INTERVAL")
+	interval := 30 * time.Minute
+	if intervalStr != "" {
+		if parsedInterval, err := time.ParseDuration(intervalStr); err == nil {
+			interval = parsedInterval
+		} else if seconds, err := strconv.Atoi(intervalStr); err == nil {
+			interval = time.Duration(seconds) * time.Second
+		}
+	}
+
+	fmt.Printf("Server: %s, Poll interval: %v\n", serverAddr, interval)
+
+	// Main loop
+	for {
+		fmt.Printf("\n[%s] Starting client execution cycle\n", time.Now().Format(time.RFC3339))
+		
+		if err := executeClientCycle(serverAddr); err != nil {
+			log.Printf("Client cycle failed: %v", err)
+		}
+
+		fmt.Printf("[%s] Client cycle completed, sleeping for %v\n", time.Now().Format(time.RFC3339), interval)
+		time.Sleep(interval)
+	}
+}
+
+func executeClientCycle(serverAddr string) error {
 	// Create a new client
 	client, err := grpc.NewClient(serverAddr)
 	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
+		return fmt.Errorf("failed to create client: %w", err)
 	}
 	defer client.Close()
 
@@ -92,4 +119,6 @@ func main() {
 		fmt.Printf("Fact: %s\n", mathFact.Text)
 		fmt.Printf("Found: %v\n", mathFact.Found)
 	}
+
+	return nil
 }
