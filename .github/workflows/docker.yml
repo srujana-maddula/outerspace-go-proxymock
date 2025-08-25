@@ -18,6 +18,15 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+    strategy:
+      matrix:
+        include:
+          - image: server
+            dockerfile: ./Dockerfile
+            image-name: ${{ github.repository }}
+          - image: client
+            dockerfile: ./Dockerfile.client
+            image-name: ${{ github.repository }}-client
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -29,48 +38,25 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Extract metadata (tags, labels) for server
-      id: meta-server
+    - name: Extract metadata (tags, labels)
+      id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ env.REGISTRY }}/${{ github.repository }}
+        images: ${{ env.REGISTRY }}/${{ matrix.image-name }}
         tags: |
           type=ref,event=branch
           type=ref,event=pr
-          type=semver,pattern={{version}}
+          type=semver,pattern=v{{version}}
           type=raw,value=latest,enable={{is_default_branch}}
-    - name: Extract metadata (tags, labels) for client
-      id: meta-client
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.REGISTRY }}/${{ github.repository }}-client
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=raw,value=latest,enable={{is_default_branch}}
-    - name: Build and push server image
+    - name: Build and push ${{ matrix.image }} image
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./Dockerfile
+        file: ${{ matrix.dockerfile }}
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ${{ steps.meta-server.outputs.tags }}
-        labels: ${{ steps.meta-server.outputs.labels }}
-        build-args: |
-          VERSION=${{ github.ref_type == 'tag' && github.ref_name || 'dev' }}
-        attestations: type=provenance,mode=max
-        provenance: false
-    - name: Build and push client image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./Dockerfile.client
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: ${{ steps.meta-client.outputs.tags }}
-        labels: ${{ steps.meta-client.outputs.labels }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           VERSION=${{ github.ref_type == 'tag' && github.ref_name || 'dev' }}
         attestations: type=provenance,mode=max
