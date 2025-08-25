@@ -4,18 +4,6 @@
 
 Outerspace is a demo app that uses the SpaceX API to fetch data about SpaceX launches, rockets, and capsules. It also talks to a numbers API that consistently generates random results.
 
-## Version Management
-
-Use the Makefile to manage versions and releases:
-- `make version` - Show current version
-- `make bump-patch` - Bump patch version 
-- `make bump-minor` - Bump minor version
-- `make bump-major` - Bump major version
-- `make tag` - Create and push git tag for current version
-- `make release-patch` - Bump patch version, create tag, and trigger CI
-- `make release-minor` - Bump minor version, create tag, and trigger CI  
-- `make release-major` - Bump major version, create tag, and trigger CI
-
 ![outerspace-go](/img/outerspace-go.png)
 
 # Working Locally
@@ -134,3 +122,15 @@ proxymock inspect --in proxymock/mocked-TIMESTAMP
 # Learn More?
 
 Feel free to join the [Speedscale Community](https://speedscale.com/community/) to learn more ways to use `proxymock` on your next project!
+
+## Version Management
+
+Use the Makefile to manage versions and releases:
+- `make version` - Show current version
+- `make bump-patch` - Bump patch version 
+- `make bump-minor` - Bump minor version
+- `make bump-major` - Bump major version
+- `make tag` - Create and push git tag for current version
+- `make release-patch` - Bump patch version, create tag, and trigger CI
+- `make release-minor` - Bump minor version, create tag, and trigger CI  
+- `make release-major` - Bump major version, create tag, and trigger CI
