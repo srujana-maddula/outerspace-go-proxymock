@@ -29,8 +29,10 @@ logs/
 *.log
 *.pid
 
-# binary
+# binaries
 outerspace-go
+client
+server
 
 # IDE and editor files
 .vscode/

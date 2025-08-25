@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"outerspace-go/lib/grpc"
+	"outerspace-go/lib/http"
 )
 
 var (
@@ -20,14 +20,13 @@ func main() {
 	fmt.Printf("outerspace-go client version %s (built at %s)\n", Version, BuildTime)
 	
 	// Get server address from environment variable or use default
-	serverAddr := os.Getenv("GRPC_SERVER_ADDR")
+	serverAddr := os.Getenv("HTTP_SERVER_ADDR")
 	if serverAddr == "" {
 		host, err := os.Hostname()
 		if err != nil {
-			// grpc will not use a proxy on localhost so we want to use a real hostname
 			host = "127.0.0.1"
 		}
-		serverAddr = host + ":50053"
+		serverAddr = "http://" + host + ":80"
 	}
 
 	// Get polling interval from environment variable or use default (30 minutes)
@@ -58,10 +57,7 @@ func main() {
 
 func executeClientCycle(serverAddr string) error {
 	// Create a new client
-	client, err := grpc.NewClient(serverAddr)
-	if err != nil {
-		return fmt.Errorf("failed to create client: %w", err)
-	}
+	client := http.NewClient(serverAddr)
 	defer client.Close()
 
 	// Create a context with timeout
