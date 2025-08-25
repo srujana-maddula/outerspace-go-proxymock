@@ -15,6 +15,6 @@ commonLabels:
 
 images:
   - name: ghcr.io/speedscale/outerspace-go
-    newTag: v1.0.3
+    newTag: v1.0.4
   - name: ghcr.io/speedscale/outerspace-go-client
-    newTag: v1.0.3
+    newTag: v1.0.4
