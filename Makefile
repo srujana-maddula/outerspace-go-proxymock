@@ -1,4 +1,4 @@
-.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client tag release-patch release-minor release-major
+.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client tag release-patch release-minor release-major update-k8s
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -108,14 +108,22 @@ version:
 bump-patch:
 	@echo "v$(MAJOR).$(MINOR).$$(expr $(PATCH) + 1)" > VERSION
 	@echo "Version bumped to: $$(cat VERSION)"
+	@$(MAKE) update-k8s
 
 bump-minor:
 	@echo "v$(MAJOR).$$(expr $(MINOR) + 1).0" > VERSION
 	@echo "Version bumped to: $$(cat VERSION)"
+	@$(MAKE) update-k8s
 
 bump-major:
 	@echo "v$$(expr $(MAJOR) + 1).0.0" > VERSION
 	@echo "Version bumped to: $$(cat VERSION)"
+	@$(MAKE) update-k8s
+
+update-k8s:
+	@sed -i '' 's/newTag: v[0-9]*\.[0-9]*\.[0-9]*/newTag: $(CURRENT_VERSION)/g' k8s/kustomization.yaml
+	@sed -i '' 's/image: ghcr\.io\/speedscale\/outerspace-go-client:v[0-9]*\.[0-9]*\.[0-9]*/image: ghcr.io\/speedscale\/outerspace-go-client:$(CURRENT_VERSION)/g' k8s/client-deployment.yaml
+	@echo "Updated k8s manifests to $(CURRENT_VERSION)"
 
 docker-build:
 	docker build --build-arg VERSION=$(CURRENT_VERSION) -t outerspace-go:$(CURRENT_VERSION) -t outerspace-go:latest .
