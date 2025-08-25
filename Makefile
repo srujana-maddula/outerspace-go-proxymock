@@ -1,4 +1,4 @@
-.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client
+.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client tag release-patch release-minor release-major
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -122,3 +122,17 @@ docker-build:
 
 docker-build-client:
 	docker build --build-arg VERSION=$(CURRENT_VERSION) -f Dockerfile.client -t outerspace-client:$(CURRENT_VERSION) -t outerspace-client:latest .
+
+tag:
+	git tag $(CURRENT_VERSION)
+	git push origin $(CURRENT_VERSION)
+	@echo "Tagged and pushed $(CURRENT_VERSION) to trigger CI build"
+
+release-patch: bump-patch tag
+	@echo "Released patch version: $$(cat VERSION)"
+
+release-minor: bump-minor tag
+	@echo "Released minor version: $$(cat VERSION)"
+
+release-major: bump-major tag
+	@echo "Released major version: $$(cat VERSION)"

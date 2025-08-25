@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
       - name: outerspace-client
-        image: ghcr.io/speedscale/outerspace-go-client:latest
+        image: ghcr.io/speedscale/outerspace-go-client:v1.0.3
         env:
         - name: HTTP_SERVER_ADDR
           value: "http://outerspace-server:80"
         - name: POLL_INTERVAL
-          value: "30m"
+          value: "1m"
         resources:
           requests:
             memory: "32Mi"
