@@ -29,13 +29,3 @@ spec:
           limits:
             memory: "64Mi"
             cpu: "200m"
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - "pgrep -f outerspace-go-client"
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          timeoutSeconds: 10
-          failureThreshold: 3
