@@ -18,7 +18,7 @@ var (
 
 func main() {
 	fmt.Printf("outerspace-go client version %s (built at %s)\n", Version, BuildTime)
-	
+
 	// Get server address from environment variable or use default
 	serverAddr := os.Getenv("HTTP_SERVER_ADDR")
 	if serverAddr == "" {
@@ -45,7 +45,7 @@ func main() {
 	// Main loop
 	for {
 		fmt.Printf("\n[%s] Starting client execution cycle\n", time.Now().Format(time.RFC3339))
-		
+
 		if err := executeClientCycle(serverAddr); err != nil {
 			log.Printf("Client cycle failed: %v", err)
 		}

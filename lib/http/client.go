@@ -40,11 +40,11 @@ type Launch struct {
 
 // Rocket represents rocket data
 type Rocket struct {
-	Id            string  `json:"id"`
-	Name          string  `json:"name"`
-	Description   string  `json:"description"`
-	HeightMeters  float32 `json:"height_meters"`
-	MassKg        int32   `json:"mass_kg"`
+	Id           string  `json:"id"`
+	Name         string  `json:"name"`
+	Description  string  `json:"description"`
+	HeightMeters float32 `json:"height_meters"`
+	MassKg       int32   `json:"mass_kg"`
 }
 
 // GetRocketsResponse represents the response from getting all rockets
