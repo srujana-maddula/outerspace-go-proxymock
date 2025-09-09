@@ -123,6 +123,7 @@ bump-major:
 update-k8s:
 	@sed -i '' 's/newTag: v[0-9]*\.[0-9]*\.[0-9]*/newTag: $(CURRENT_VERSION)/g' k8s/kustomization.yaml
 	@sed -i '' 's/image: ghcr\.io\/speedscale\/outerspace-go-client:v[0-9]*\.[0-9]*\.[0-9]*/image: ghcr.io\/speedscale\/outerspace-go-client:$(CURRENT_VERSION)/g' k8s/client-deployment.yaml
+	@sed -i '' 's/image: ghcr\.io\/speedscale\/outerspace-go:v[0-9]*\.[0-9]*\.[0-9]*/image: ghcr.io\/speedscale\/outerspace-go:$(CURRENT_VERSION)/g' k8s/server-deployment.yaml
 	@echo "Updated k8s manifests to $(CURRENT_VERSION)"
 
 docker-build:

@@ -60,6 +60,15 @@ type MathFact struct {
 	Found  bool   `json:"found"`
 }
 
+// NASAData represents NASA's Astronomy Picture of the Day
+type NASAData struct {
+	Title       string `json:"title"`
+	Date        string `json:"date"`
+	Explanation string `json:"explanation"`
+	URL         string `json:"url"`
+	MediaType   string `json:"media_type"`
+}
+
 // GetLatestLaunch calls the HTTP API to get the latest launch
 func (c *Client) GetLatestLaunch(ctx context.Context) (*Launch, error) {
 	url := fmt.Sprintf("%s/api/latest-launch", c.baseURL)
@@ -162,4 +171,30 @@ func (c *Client) GetMathFact(ctx context.Context) (*MathFact, error) {
 	}
 
 	return &mathFact, nil
+}
+
+// GetNASAData calls the HTTP API to get NASA's Astronomy Picture of the Day
+func (c *Client) GetNASAData(ctx context.Context) (*NASAData, error) {
+	url := fmt.Sprintf("%s/api/nasa", c.baseURL)
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
+	}
+
+	var nasaData NASAData
+	if err := json.NewDecoder(resp.Body).Decode(&nasaData); err != nil {
+		return nil, err
+	}
+
+	return &nasaData, nil
 }

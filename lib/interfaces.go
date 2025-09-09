@@ -11,3 +11,8 @@ type SpaceXClientInterface interface {
 type NumbersClientInterface interface {
 	GetMathFact() (*MathFact, error)
 }
+
+// NASAClientInterface defines the interface for NASA API client
+type NASAClientInterface interface {
+	GetAPOD() (*APOD, error)
+}

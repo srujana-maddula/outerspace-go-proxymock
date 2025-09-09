@@ -22,6 +22,7 @@ func main() {
 
 	spaceClient := lib.NewSpaceXClient()
 	numbersClient := lib.NewNumbersClient()
+	nasaClient := lib.NewNASAClient()
 
 	// Define routes
 	http.HandleFunc("/", lib.HandleRoot())
@@ -29,6 +30,7 @@ func main() {
 	http.HandleFunc("/api/rocket", lib.HandleRocket(spaceClient))
 	http.HandleFunc("/api/rockets", lib.HandleListRockets(spaceClient))
 	http.HandleFunc("/api/numbers", lib.HandleNumbers(numbersClient))
+	http.HandleFunc("/api/nasa", lib.HandleNASA(nasaClient))
 
 	// Start HTTP server in a goroutine
 	go func() {

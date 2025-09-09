@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: outerspace-client
-        image: ghcr.io/speedscale/outerspace-go-client:v1.0.4
+        image: ghcr.io/speedscale/outerspace-go-client:v1.1.1
         env:
         - name: HTTP_SERVER_ADDR
           value: "http://outerspace-server:80"

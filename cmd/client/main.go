@@ -116,5 +116,18 @@ func executeClientCycle(serverAddr string) error {
 		fmt.Printf("Found: %v\n", mathFact.Found)
 	}
 
+	// Get NASA data
+	fmt.Println("\n=== Getting NASA Astronomy Picture of the Day ===")
+	nasaData, err := client.GetNASAData(ctx)
+	if err != nil {
+		log.Printf("Failed to get NASA data: %v", err)
+	} else {
+		fmt.Printf("Title: %s\n", nasaData.Title)
+		fmt.Printf("Date: %s\n", nasaData.Date)
+		fmt.Printf("Media Type: %s\n", nasaData.MediaType)
+		fmt.Printf("URL: %s\n", nasaData.URL)
+		fmt.Printf("Explanation: %s\n", nasaData.Explanation)
+	}
+
 	return nil
 }

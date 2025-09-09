@@ -84,6 +84,19 @@ func HandleNumbers(client NumbersClientInterface) http.HandlerFunc {
 	})
 }
 
+func HandleNASA(client NASAClientInterface) http.HandlerFunc {
+	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
+		apod, err := client.GetAPOD()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(apod)
+	})
+}
+
 func HandleRoot() http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		endpoints := map[string]string{
@@ -92,6 +105,7 @@ func HandleRoot() http.HandlerFunc {
 			"/api/rocket":        "Get a specific rocket by ID (use ?id=[rocket_id])",
 			"/api/rockets":       "Get a list of all SpaceX rockets",
 			"/api/numbers":       "Get a random math fact",
+			"/api/nasa":          "Get NASA's Astronomy Picture of the Day",
 		}
 
 		w.Header().Set("Content-Type", "application/json")
