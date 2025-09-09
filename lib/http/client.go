@@ -5,13 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"time"
+)
+
+const (
+	// UserAgentHeader is the header name for client version
+	UserAgentHeader = "User-Agent"
+	// ClientVersionHeader is a custom header for the client version
+	ClientVersionHeader = "X-Client-Version"
 )
 
 // Client represents an HTTP client for the outerspace API
 type Client struct {
 	baseURL    string
 	httpClient *http.Client
+	version    string
 }
 
 // NewClient creates a new HTTP client
@@ -21,7 +31,16 @@ func NewClient(baseURL string) *Client {
 		httpClient: &http.Client{
 			Timeout: 30 * time.Second,
 		},
+		version: getVersion(),
 	}
+}
+
+// getVersion reads the version from VERSION file or returns default
+func getVersion() string {
+	if data, err := os.ReadFile("VERSION"); err == nil {
+		return strings.TrimSpace(string(data))
+	}
+	return "dev"
 }
 
 // Close is a no-op for HTTP client (for compatibility with gRPC client interface)
@@ -76,6 +95,7 @@ func (c *Client) GetLatestLaunch(ctx context.Context) (*Launch, error) {
 	if err != nil {
 		return nil, err
 	}
+	c.addVersionHeaders(req)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -102,6 +122,7 @@ func (c *Client) GetRocket(ctx context.Context, id string) (*Rocket, error) {
 	if err != nil {
 		return nil, err
 	}
+	c.addVersionHeaders(req)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -128,6 +149,7 @@ func (c *Client) GetRockets(ctx context.Context) (*GetRocketsResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+	c.addVersionHeaders(req)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -154,6 +176,7 @@ func (c *Client) GetMathFact(ctx context.Context) (*MathFact, error) {
 	if err != nil {
 		return nil, err
 	}
+	c.addVersionHeaders(req)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -180,6 +203,7 @@ func (c *Client) GetNASAData(ctx context.Context) (*NASAData, error) {
 	if err != nil {
 		return nil, err
 	}
+	c.addVersionHeaders(req)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -197,4 +221,11 @@ func (c *Client) GetNASAData(ctx context.Context) (*NASAData, error) {
 	}
 
 	return &nasaData, nil
+}
+
+// addVersionHeaders adds version-related headers to the request
+func (c *Client) addVersionHeaders(req *http.Request) {
+	userAgent := fmt.Sprintf("outerspace-go/%s", c.version)
+	req.Header.Set(UserAgentHeader, userAgent)
+	req.Header.Set(ClientVersionHeader, c.version)
 }

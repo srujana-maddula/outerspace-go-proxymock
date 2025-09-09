@@ -1,4 +1,4 @@
-.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client docker-buildx-setup docker-push tag release-patch release-minor release-major update-k8s
+.PHONY: test coverage coverage-html clean proxymock-mock run build build-client integration-test load-test http-test http-test-recording bump-major bump-minor bump-patch version docker-build docker-build-client docker-buildx-setup docker-push-server docker-push-client docker-push tag release-patch release-minor release-major update-k8s
 
 # Define proxymock environment variables
 PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
@@ -135,9 +135,13 @@ docker-build-client:
 docker-buildx-setup:
 	docker buildx create --name outerspace-builder --use || docker buildx use outerspace-builder
 
-docker-push: docker-buildx-setup
+docker-push-server: docker-buildx-setup
 	docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=$(CURRENT_VERSION) -t ghcr.io/speedscale/outerspace-go:$(CURRENT_VERSION) -t ghcr.io/speedscale/outerspace-go:latest --push .
+
+docker-push-client: docker-buildx-setup
 	docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=$(CURRENT_VERSION) -f Dockerfile.client -t ghcr.io/speedscale/outerspace-go-client:$(CURRENT_VERSION) -t ghcr.io/speedscale/outerspace-go-client:latest --push .
+
+docker-push: docker-push-server docker-push-client
 
 tag:
 	git tag $(CURRENT_VERSION)
