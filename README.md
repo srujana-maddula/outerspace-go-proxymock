@@ -1,6 +1,6 @@
 # Demo App: outerspace-go
 
-[![CI/CD](https://github.com/speedscale/outerspace-go/actions/workflows/ci.yml/badge.svg)](https://github.com/speedscale/outerspace-go/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/speedscale/outerspace-go/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/speedscale/outerspace-go/actions/workflows/ci-cd.yml)
 
 Outerspace is a demo app that uses the SpaceX API to fetch data about SpaceX launches, rockets, and capsules. It also talks to a numbers API that consistently generates random results.
 

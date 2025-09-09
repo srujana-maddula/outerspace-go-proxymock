@@ -88,7 +88,10 @@ func HandleNASA(client NASAClientInterface) http.HandlerFunc {
 	return LoggingMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		apod, err := client.GetAPOD()
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			errorResponse := map[string]string{"error": "unknown error"}
+			json.NewEncoder(w).Encode(errorResponse)
 			return
 		}
 
