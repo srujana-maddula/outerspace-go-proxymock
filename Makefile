@@ -5,8 +5,8 @@ PROXYMOCK_ENV = http_proxy=socks5h://localhost:4140 \
                 https_proxy=socks5h://localhost:4140 \
                 SSL_CERT_FILE=~/.speedscale/certs/tls.crt
 
-# Find first recording directory
-PROXYMOCK_RECORDING := $(shell find ./proxymock -name "recorded-*" -type d | head -n 1)
+# Find most recent recording or snapshot directory
+PROXYMOCK_RECORDING := $(shell find ./proxymock \( -name "recorded-*" -o -name "snapshot-*" \) -type d -exec ls -td {} + | head -n 1)
 
 # Version management
 CURRENT_VERSION := $(shell cat VERSION)
@@ -53,7 +53,7 @@ load-test: build proxymock-mock
 	echo "Waiting for outerspace-go to start..."
 	sleep 2
 	echo "Running load tests with proxymock..."
-	proxymock replay --in $(PROXYMOCK_RECORDING) --vus 10 --for 1m --fail-if "latency.p95 > 200"
+	proxymock replay --in $(PROXYMOCK_RECORDING) --no-out --vus 10 --for 1m --fail-if "latency.p95 > 200"
 	echo "Cleaning up..."
 	-pkill -f "outerspace-go" || true
 	-pkill -f "proxymock" || true
@@ -93,7 +93,7 @@ http-test-recording: build
 
 proxymock-mock:
 	mkdir -p logs
-	nohup proxymock mock --in $(PROXYMOCK_RECORDING) > logs/proxymock-mock.log 2>&1 & \
+	nohup proxymock mock --in $(PROXYMOCK_RECORDING) --no-out > logs/proxymock-mock.log 2>&1 & \
 	sleep 2
 	@if ! pgrep -f "proxymock mock" > /dev/null; then \
 		echo "Error: Proxymock is NOT mocking!"; \
