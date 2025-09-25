@@ -37,6 +37,8 @@ jobs:
         curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock | sh
         echo "$HOME/.speedscale" >> $GITHUB_PATH
         $HOME/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
+
+        make integration-test
         
     - name: Install dependencies
       run: go mod download
