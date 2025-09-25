@@ -46,6 +46,8 @@ jobs:
       
     - name: Run integration tests
       run: make integration-test
+      env:
+        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       
     - name: Run load tests
       run: make load-test
