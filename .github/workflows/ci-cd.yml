@@ -29,27 +29,27 @@ jobs:
       with:
         go-version: '1.24'
         
-    - name: Setup proxymock
+    - name: Setup proxymock and run integration tests
       env:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: |
         mkdir -p .speedscale
         curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock | sh
-        echo "$HOME/.speedscale" >> $GITHUB_PATH
-        $HOME/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
-
-        make integration-test
         
+        # Add proxymock to PATH
+        echo "$HOME/.speedscale" >> $GITHUB_PATH
+        export PATH=$HOME/.speedscale:$PATH
+        
+        $HOME/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
+        
+        # Now run integration tests
+        make integration-test
+
     - name: Install dependencies
       run: go mod download
       
     - name: Run unit tests
       run: make test
-      
-    - name: Run integration tests
-      run: make integration-test
-      env:
-        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       
     - name: Run load tests
       run: make load-test
