@@ -23,40 +23,42 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: '1.24'
-        
-    - name: Setup proxymock and run integration tests
+
+    - name: Setup proxymock
       env:
         PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
       run: |
         mkdir -p .speedscale
         curl -Lfs https://downloads.speedscale.com/proxymock/install-proxymock | sh
-        
-        # Add proxymock to PATH
         echo "$HOME/.speedscale" >> $GITHUB_PATH
-        export PATH=$HOME/.speedscale:$PATH
-        
         $HOME/.speedscale/proxymock init --api-key "$PROXYMOCK_API_KEY"
-        
-        # Now run integration tests
-        make integration-test
 
     - name: Install dependencies
       run: go mod download
-      
+
     - name: Run unit tests
       run: make test
-      
+
+    - name: Run integration tests
+      env:
+        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
+        PATH: $HOME/.speedscale:$PATH
+      run: make integration-test
+
     - name: Run load tests
+      env:
+        PROXYMOCK_API_KEY: ${{ secrets.PROXYMOCK_API_KEY }}
+        PATH: $HOME/.speedscale:$PATH
       run: make load-test
-      
+
     - name: Build server
       run: make build
-      
+
     - name: Build client
       run: make build-client
 
@@ -89,13 +91,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
-    
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    
+
     - name: Login to Container Registry
       if: needs.test-and-build.outputs.should-deploy == 'true'
       uses: docker/login-action@v3
@@ -103,7 +105,7 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    
+
     - name: Build and push ${{ matrix.target }} image
       run: |
         if [ "${{ needs.test-and-build.outputs.should-deploy }}" == "true" ]; then
